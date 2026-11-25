@@ -13,7 +13,9 @@ import type { ViewMode } from "./VocalTract";
 import { SECTION_PLANE } from "./VocalTract";
 
 export type HeadKind = "child_m" | "child_f" | "teen_m" | "teen_f";
-export const headUrl = (k: HeadKind) => asset(`models/heads/${k}.glb`);
+// Đuôi tệp cấu hình được (VITE_HEAD_EXT) cho nơi lưu trữ không phục vụ .glb; nội dung vẫn là GLB.
+const HEAD_EXT = (import.meta.env.VITE_HEAD_EXT as string | undefined) ?? ".glb";
+export const headUrl = (k: HeadKind | string) => asset(`models/heads/${k}${HEAD_EXT}`);
 
 /** Mốc của khoang miệng giải phẫu (hệ tọa độ VocalTract). */
 export const ANATOMY = { stomion: new THREE.Vector2(4.15, 0.02), noseTip: new THREE.Vector2(5.12, 2.35), chin: new THREE.Vector2(4.58, -2.3), pharynxX: -1.7 };

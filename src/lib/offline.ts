@@ -1,6 +1,7 @@
 // Tải sẵn âm thanh của giọng đang dùng + gương mặt 3D vào bộ nhớ đệm (service worker lưu theo CacheFirst).
 import { loadManifest } from "./audio";
 import { asset } from "./utils";
+import { headUrl } from "@/components/three/RealHead";
 
 export async function prefetchForOffline(voice: string, headKind: string | null, onProgress: (done: number, total: number) => void) {
   const m = await loadManifest();
@@ -9,7 +10,7 @@ export async function prefetchForOffline(voice: string, headKind: string | null,
     if (!key.startsWith(voice + "/")) continue;
     urls.push(asset(e.slow), asset(e.normal));
   }
-  if (headKind) urls.push(asset(`models/heads/${headKind}.glb`));
+  if (headKind) urls.push(headUrl(headKind));
   let done = 0;
   const queue = urls.slice();
   const worker = async () => {
