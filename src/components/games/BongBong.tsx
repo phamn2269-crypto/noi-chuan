@@ -170,6 +170,7 @@ export default function BongBong({ pairId, difficulty, onFinish }: GameProps) {
         <MicButton
           state={pr.state}
           level={pr.level}
+          partial={pr.partial}
           onPress={() => {
             if (!live) setLive(true);
             if (pr.state === "recording") pr.stop();

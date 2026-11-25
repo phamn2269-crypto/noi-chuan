@@ -46,9 +46,9 @@ export default function ProfilePage() {
           <Seg
             value={settings.theme}
             options={[
-              ["light", <Sun key="l" className="h-4 w-4" />],
-              ["system", <SunMoon key="s" className="h-4 w-4" />],
-              ["dark", <Moon key="d" className="h-4 w-4" />],
+              ["light", <Sun key="l" className="h-4 w-4" aria-label="Sáng" />],
+              ["system", <SunMoon key="s" className="h-4 w-4" aria-label="Theo máy" />],
+              ["dark", <Moon key="d" className="h-4 w-4" aria-label="Tối" />],
             ]}
             onChange={(v) => setSettings({ theme: v as never })}
           />
@@ -115,7 +115,7 @@ function Seg({ value, options, onChange }: { value: string; options: [string, Re
   return (
     <div className="flex rounded-xl bg-muted p-0.5">
       {options.map(([v, l]) => (
-        <button key={v} onClick={() => onChange(v)} aria-pressed={value === v} className={cn("min-w-[2.5rem] rounded-lg px-2.5 py-1.5 text-xs font-bold", value === v ? "bg-card shadow-soft" : "text-muted-foreground")}>
+        <button key={v} onClick={() => onChange(v)} aria-pressed={value === v} aria-label={typeof l === "string" ? undefined : ({ light: "Chủ đề sáng", system: "Chủ đề theo máy", dark: "Chủ đề tối" } as Record<string, string>)[v]} className={cn("min-w-[2.5rem] rounded-lg px-2.5 py-1.5 text-xs font-bold", value === v ? "bg-card shadow-soft" : "text-muted-foreground")}>
           {l}
         </button>
       ))}

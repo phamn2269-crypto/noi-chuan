@@ -104,7 +104,7 @@ export default function ThuCung({ pairId, difficulty, onFinish }: GameProps) {
         Từ {i + 1}/{words.length}
       </p>
       <div className="mt-2 min-h-[100px]">{pr.result && <FeedbackPanel result={pr.result} onRetry={() => pr.reset()} onNext={next} onManual={(c) => pr.manualJudge(c)} />}</div>
-      <div className="mt-auto flex justify-center">{(!pr.result || pr.result.status === "retry") && <MicButton state={pr.state} level={pr.level} onPress={() => pr.toggle(w.text)} label="Đọc để cho thú ăn" />}</div>
+      <div className="mt-auto flex justify-center">{(!pr.result || pr.result.status === "retry") && <MicButton state={pr.state} level={pr.level} partial={pr.partial} onPress={() => pr.toggle(w.text)} label="Đọc để cho thú ăn" />}</div>
     </div>
   );
 }

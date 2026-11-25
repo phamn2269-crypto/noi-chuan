@@ -367,7 +367,7 @@ function SpeakStep({ items, onAnswer, onNext }: { items: (WordItem | SentenceIte
       </div>
       <div className="mt-auto flex flex-col items-center pb-2">
         {(!pr.result || pr.result.status === "retry") && (
-          <MicButton state={pr.state} level={pr.level} onPress={() => pr.toggle(item.text)} label={pr.state === "recording" ? "Đang nghe… bấm để dừng" : `Bấm và đọc (${i + 1}/${items.length})`} />
+          <MicButton state={pr.state} level={pr.level} partial={pr.partial} onPress={() => pr.toggle(item.text)} label={pr.state === "recording" ? "Đang nghe… bấm để dừng" : `Bấm và đọc (${i + 1}/${items.length})`} />
         )}
       </div>
       <MouthDialog open={mouth} onOpenChange={setMouth} sound={target} wrongSound={pr.result?.wrongSound} />

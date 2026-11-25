@@ -101,7 +101,10 @@ export interface ScoreOptions {
 export async function scorePronunciation(audio: RecordingResult, targetText: string, opts: ScoreOptions = {}): Promise<ScoreResult> {
   const base = { wrongSound: null, targetSound: null, errors: [], heard: "" } as const;
   // Ồn hoặc quá nhỏ: nhắc đọc lại, không trừ điểm
-  if (audio.peak < 0.08 || audio.speechMs < 150) {
+  const heardSomething = audio.transcripts.length > 0;
+  if (audio.srError === "not-allowed" || audio.srError === "service-not-allowed")
+    return { ...base, errors: [], status: "retry", score: 0, correct: false, feedback: "Cần cho phép micro và nhận dạng giọng nói (bố mẹ bật trong cài đặt trình duyệt) nhé." };
+  if (!heardSomething && (audio.peak < 0.08 || audio.speechMs < 150)) {
     return { ...base, errors: [], status: "retry", score: 0, correct: false, feedback: "Cô chưa nghe rõ. Con đọc to hơn một chút nhé!" };
   }
 

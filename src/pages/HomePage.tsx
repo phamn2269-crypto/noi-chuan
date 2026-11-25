@@ -54,7 +54,7 @@ export default function HomePage() {
           </p>
           <h2 className="mt-1 text-3xl font-extrabold">{todayPair.title}</h2>
           <p className="mt-1 max-w-[16rem] text-sm text-white/85">{kid ? "Nghe – xem khẩu hình – chọn đúng – đọc to" : todayPair.description}</p>
-          <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-bold text-primary shadow-md">
+          <span className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 font-bold text-[#4535d6] shadow-md">
             <Play className="h-4 w-4 fill-current" /> Bắt đầu
           </span>
         </Link>

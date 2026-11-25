@@ -110,7 +110,7 @@ export default function DuongDua({ pairId, difficulty, onFinish }: GameProps) {
           </div>
           <div className="mt-3 min-h-[100px]">{pr.result && !pr.result.correct && <FeedbackPanel result={pr.result} onRetry={() => pr.reset()} onManual={(c) => pr.manualJudge(c)} speakOut={false} />}</div>
           <div className="mt-auto flex justify-center">
-            {(!pr.result || !pr.result.correct) && <MicButton state={pr.state} level={pr.level} onPress={() => (pr.result ? (pr.reset(), pr.toggle(w.text)) : pr.toggle(w.text))} label="Đọc để tăng tốc!" />}
+            {(!pr.result || !pr.result.correct) && <MicButton state={pr.state} level={pr.level} partial={pr.partial} onPress={() => (pr.result ? (pr.reset(), pr.toggle(w.text)) : pr.toggle(w.text))} label="Đọc để tăng tốc!" />}
           </div>
         </>
       )}

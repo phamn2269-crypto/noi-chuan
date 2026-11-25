@@ -135,6 +135,10 @@ export interface ManifestEntry {
   status: ReviewStatus;
   note?: string;
   source?: "tts" | "human";
+  /** từ đơn được đọc trong câu đệm "Con đọc: …" rồi cắt ra */
+  carrier?: boolean;
+  /** kết quả tự kiểm tra bằng ASR khi tạo file */
+  asr?: { heard: string; match: "exact" | "loose" | "mismatch"; acc: number };
 }
 export interface AudioManifest {
   version: number;

@@ -75,6 +75,7 @@ export default function NoiNhanh({ pairId, difficulty, onFinish }: GameProps) {
         <MicButton
           state={pr.state}
           level={pr.level}
+          partial={pr.partial}
           onPress={() => {
             if (pr.state === "idle") {
               pr.reset();

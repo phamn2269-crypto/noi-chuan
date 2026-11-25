@@ -51,7 +51,7 @@ const STATUS_LABEL: Record<ReviewStatus, string> = { chua_duyet: "Chưa duyệt"
 
 function VoiceReview() {
   const [voice, setVoice] = useState<"bac" | "nam">("bac");
-  const [filter, setFilter] = useState<"all" | ReviewStatus | "missing">("all");
+  const [filter, setFilter] = useState<"all" | ReviewStatus | "missing" | "asr_bad">("all");
   const [manifest, setManifest] = useState<AudioManifest | null>(null);
   const reviews = useApp((s) => s.admin.reviews);
   const missing = useApp((s) => s.admin.missingAudio);
@@ -66,7 +66,7 @@ function VoiceReview() {
     const r = reviews[key];
     return { ...x, key, entry, status: reviewStatusOf(key, entry) as ReviewStatus, human: !!r?.human, note: r?.note ?? entry?.note ?? "" };
   });
-  const shown = rows.filter((r) => (filter === "all" ? true : filter === "missing" ? !r.entry && !r.human : r.status === filter));
+  const shown = rows.filter((r) => (filter === "all" ? true : filter === "missing" ? !r.entry && !r.human : filter === "asr_bad" ? r.entry?.asr?.match === "mismatch" : r.status === filter));
   const counts = {
     total: rows.length,
     file: rows.filter((r) => r.entry || r.human).length,
@@ -126,6 +126,7 @@ function VoiceReview() {
           <option value="da_duyet">Đạt</option>
           <option value="doc_sai">Đọc sai</option>
           <option value="missing">Thiếu file</option>
+          <option value="asr_bad">ASR nghe lệch</option>
         </select>
         <Button variant="outline" size="sm" className="ml-auto" onClick={exportReviews}>
           <Download className="h-4 w-4" /> Xuất trạng thái duyệt
@@ -141,7 +142,7 @@ function VoiceReview() {
   );
 }
 
-function AudioRow({ row, onReview }: { row: { id: string; key: string; text: string; status: ReviewStatus; human: boolean; note: string; entry?: unknown }; onReview: (p: { status?: ReviewStatus; note?: string; human?: boolean }) => void }) {
+function AudioRow({ row, onReview }: { row: { id: string; key: string; text: string; status: ReviewStatus; human: boolean; note: string; entry?: { asr?: { match: string; heard: string } } }; onReview: (p: { status?: ReviewStatus; note?: string; human?: boolean }) => void }) {
   const file = useRef<HTMLInputElement>(null);
   const [note, setNote] = useState(row.note);
   const preview = async (speed: "slow" | "normal") => {
@@ -163,6 +164,11 @@ function AudioRow({ row, onReview }: { row: { id: string; key: string; text: str
           <Badge variant={row.status === "da_duyet" ? "success" : row.status === "doc_sai" ? "warning" : "muted"}>{STATUS_LABEL[row.status]}</Badge>
           {row.human && <Badge>Người thật</Badge>}
           {!row.entry && !row.human && <Badge variant="muted">Thiếu file</Badge>}
+          {row.entry?.asr && (
+            <Badge variant={row.entry.asr.match === "mismatch" ? "warning" : "success"} title={`ASR nghe: ${row.entry.asr.heard}`}>
+              ASR {row.entry.asr.match === "mismatch" ? "lệch" : "khớp"}
+            </Badge>
+          )}
         </p>
         <input value={note} onChange={(e) => setNote(e.target.value)} onBlur={() => note !== row.note && onReview({ note })} placeholder="Ghi chú…" className="mt-1 h-8 w-full rounded-lg border bg-background px-2 text-sm" />
       </div>

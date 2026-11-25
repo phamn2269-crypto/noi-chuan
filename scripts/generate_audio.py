@@ -45,7 +45,7 @@ VOICES = ROOT / "scripts" / "voices.json"
 DEFAULT_OUT = ROOT / "public" / "audio"
 TMP = ROOT / "tmp"
 
-PIPELINE_VERSION = "1"  # tăng khi đổi cách xử lý âm thanh để buộc tạo lại
+PIPELINE_VERSION = "2"  # tăng khi đổi cách xử lý âm thanh để buộc tạo lại
 SLOW_TEMPO = 0.75
 
 
@@ -91,7 +91,7 @@ def tts_text(text: str) -> str:
 def content_hash(text: str, voice_cfg: dict, engine: str) -> str:
     h = hashlib.sha1()
     payload = json.dumps(
-        {"t": tts_text(text), "v": voice_cfg, "e": engine, "p": PIPELINE_VERSION, "tempo": SLOW_TEMPO},
+        {"t": tts_text(text), "v": voice_cfg, "e": engine, "p": PIPELINE_VERSION, "tempo": SLOW_TEMPO, "c": CARRIER if needs_carrier(text) else ""},
         ensure_ascii=False,
         sort_keys=True,
     )
@@ -257,7 +257,11 @@ def syllable_visemes(syl: str) -> list[tuple[str, float]]:
     """Bản Python của syllableVisemes() trong src/lib/vietnamese.ts (rút gọn)."""
     s = unicodedata.normalize("NFC", syl.lower())
     onset = next((o for o in ONSETS if s.startswith(o)), "")
-    rest = strip_marks(s[len(onset):])
+    if onset == "g" and len(s) > 1 and strip_marks(s[1]) == "i" and s[1] != "i":
+        onset = "gi"  # "gì": chữ i mang dấu là một ký tự
+        rest = strip_marks(s[1:])
+    else:
+        rest = strip_marks(s[len(onset):])
     keys: list[tuple[str, float]] = []
     if onset:
         keys.append((ONSET_POSE.get(onset, "rest"), 0.32))
@@ -281,7 +285,8 @@ def syllable_visemes(syl: str) -> list[tuple[str, float]]:
             if coda.endswith(suf):
                 keys.append((pose, 0.2))
                 break
-    return keys
+    total = sum(w for _, w in keys)
+    return [(p, w / total) for p, w in keys]
 
 
 def add_phonemes(marks: list[dict]) -> list[dict]:
@@ -349,6 +354,102 @@ class WhisperXAligner:
         return add_phonemes(marks)
 
 
+# --------------------------------------------------------------------------- câu đệm cho từ đơn
+# VieNeu (mô hình kiểu ngôn ngữ) đọc kém ổn định khi đầu vào chỉ có 1–2 âm tiết. Từ đơn được đọc trong
+# câu đệm "Con đọc: <từ>." rồi cắt lấy phần sau khoảng lặng dài nhất.
+CARRIER = "Con đọc: "
+
+
+def needs_carrier(text: str) -> bool:
+    return len(clean_tokens(text)) <= 2 and not re.search(r"[,;:!?]", text)
+
+
+def silences(wav: Path, noise="-40dB", d=0.07) -> list[tuple[float, float]]:
+    r = subprocess.run(["ffmpeg", "-i", str(wav), "-af", f"silencedetect=noise={noise}:d={d}", "-f", "null", "-"], capture_output=True, text=True)
+    starts = [float(x) for x in re.findall(r"silence_start: ([\d.]+)", r.stderr)]
+    ends = [float(x) for x in re.findall(r"silence_end: ([\d.]+)", r.stderr)]
+    return list(zip(starts, ends))
+
+
+def cut_after_carrier(src: Path, dst: Path) -> bool:
+    dur = duration_of(src)
+    gaps = [(e - s, s, e) for s, e in silences(src) if s > 0.25 and e < dur - 0.2]
+    if not gaps:
+        return False
+    _, _, end = max(gaps)
+    run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0.0, end - 0.03):.3f}", "-i", str(src), str(dst)])
+    return duration_of(dst) > 0.15
+
+
+# --------------------------------------------------------------------------- kiểm tra bằng ASR
+MERGE = {"x": "s", "tr": "ch", "gi": "d", "r": "d"}  # cặp mà ASR (dữ liệu giọng Bắc) không phân biệt được
+
+
+def norm_tokens(text: str) -> list[str]:
+    return [w for w, _ in clean_tokens(unicodedata.normalize("NFC", text))]
+
+
+def loose(tok: str) -> str:
+    onset = next((o for o in ONSETS if tok.startswith(o)), "")
+    return MERGE.get(onset, onset) + tok[len(onset):]
+
+
+class AsrVerifier:
+    """Nghe lại file vừa tạo bằng faster-whisper và so với văn bản."""
+
+    def __init__(self, model: str):
+        from faster_whisper import WhisperModel  # type: ignore
+        self.m = WhisperModel(model, device="cpu", compute_type="int8")
+
+    def heard(self, wav: Path) -> str:
+        import numpy as np
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(wav), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"], capture_output=True, check=True).stdout
+        segs, _ = self.m.transcribe(np.frombuffer(raw, np.float32), language="vi", beam_size=5)
+        return "".join(x.text for x in segs).strip()
+
+    def word_start(self, wav: Path, text: str, n_last: int) -> float | None:
+        """Thời điểm bắt đầu của n từ cuối (để cắt bỏ câu đệm)."""
+        import numpy as np
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(wav), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"], capture_output=True, check=True).stdout
+        segs, _ = self.m.transcribe(np.frombuffer(raw, np.float32), language="vi", beam_size=5, word_timestamps=True, initial_prompt=CARRIER + text)
+        words = [w for sg in segs for w in (sg.words or [])]
+        if len(words) < n_last + 1:
+            return None
+        return words[-n_last].start
+
+    def check(self, text: str, wav: Path, carrier: bool) -> dict:
+        heard = self.heard(wav)
+        e = norm_tokens(text)
+        h = norm_tokens(heard)
+        if carrier:
+            h = h[-len(e):]
+        if h == e:
+            return {"heard": heard, "match": "exact", "acc": 1.0}
+        same = sum(1 for a, b in zip(e, h) if loose(a) == loose(b))
+        acc = round(same / max(len(e), len(h), 1), 3)
+        ok = acc >= (1.0 if len(e) <= 2 else 0.9)
+        return {"heard": heard, "match": "loose" if ok else "mismatch", "acc": acc}
+
+
+class WhisperWordAligner:
+    """Mốc từng âm tiết bằng word_timestamps của faster-whisper (không cần PyTorch)."""
+
+    def __init__(self, verifier: "AsrVerifier"):
+        self.v = verifier
+
+    def align(self, text: str, wav: Path) -> list[dict]:
+        import numpy as np
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(wav), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"], capture_output=True, check=True).stdout
+        segs, _ = self.v.m.transcribe(np.frombuffer(raw, np.float32), language="vi", beam_size=5, word_timestamps=True,
+                                      initial_prompt=text)
+        words = [w for sg in segs for w in (sg.words or [])]
+        toks = clean_tokens(text)
+        if len(words) != len(toks):
+            raise RuntimeError(f"số từ lệch ({len(words)}/{len(toks)})")
+        marks = [{"start": round(w.start, 3), "end": round(w.end, 3), "text": t} for w, (t, _) in zip(words, toks)]
+        return add_phonemes(marks)
+
+
 # --------------------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser(description="Tạo giọng đọc mẫu Nói Chuẩn bằng VieNeu-TTS")
@@ -360,10 +461,13 @@ def main():
     ap.add_argument("--backend", default=None, help='VieNeu backend, vd "onnx" khi không có GPU')
     ap.add_argument("--precision", default=None, help='mặc định fp32 trên CPU (khuyến nghị giữ nguyên)')
     ap.add_argument("--stretch", choices=["ffmpeg", "pyrubberband", "rubberband-cli", "atempo"], default=None)
-    ap.add_argument("--aligner", choices=["whisperx", "estimate", "none"], default="whisperx")
+    ap.add_argument("--aligner", choices=["whisperx", "whisper", "estimate", "none"], default="whisperx",
+                    help="whisper = mốc từ của faster-whisper (cần --verify)")
     ap.add_argument("--device", default="cpu", help="thiết bị cho whisperX: cpu | cuda")
     ap.add_argument("--out", default=str(DEFAULT_OUT), help="thư mục xuất (mặc định public/audio)")
     ap.add_argument("--list-voices", action="store_true", help="in danh sách giọng có sẵn của VieNeu rồi thoát")
+    ap.add_argument("--verify", default=None, metavar="MODEL", help="nghe lại bằng faster-whisper (vd: medium), tạo lại tới 3 lần nếu lệch")
+    ap.add_argument("--auto-approve", action="store_true", help="file khớp ASR → 'da_duyet' (kèm ghi chú để giáo viên nghe lại)")
     args = ap.parse_args()
 
     out_dir = Path(args.out).resolve()
@@ -406,6 +510,14 @@ def main():
     if args.limit:
         items = items[: args.limit]
 
+    verifier = AsrVerifier(args.verify) if args.verify else None
+    if verifier:
+        log(f"[verify] faster-whisper {args.verify}")
+    if args.aligner == "whisper":
+        if not verifier:
+            sys.exit("--aligner whisper cần --verify <model>")
+        aligner = WhisperWordAligner(verifier)
+        log("[align] faster-whisper word timestamps")
     tmp = Path(tempfile.mkdtemp(prefix="noichuan-", dir=TMP if TMP.exists() else None))
     made = skipped = failed = 0
     t0 = time.time()
@@ -432,7 +544,33 @@ def main():
                 try:
                     raw = tmp / f"{name}.wav"
                     slow = tmp / f"{name}_slow.wav"
-                    engine.synth(tts_text(it["text"]), vcfg, raw)
+                    carrier = needs_carrier(it["text"])
+                    best = None
+                    for attempt in range(3 if verifier else 1):
+                        full = tmp / f"{name}_full.wav"
+                        engine.synth(CARRIER + tts_text(it["text"]) if carrier else tts_text(it["text"]), vcfg, full)
+                        report = verifier.check(it["text"], full, carrier) if verifier else None
+                        if best is None or (report and report["acc"] > best[1]["acc"]):
+                            shutil.copy(full, raw)
+                            best = (attempt, report or {"acc": 0})
+                        if not report or report["match"] != "mismatch":
+                            break
+                        log(f"   ↻ ASR nghe thành “{report['heard']}” – tạo lại")
+                    asr_report = best[1] if verifier else None
+                    cut_ok = False
+                    if carrier and verifier:
+                        st = verifier.word_start(raw, it["text"], len(clean_tokens(it["text"])))
+                        if st is not None and st > 0.2:
+                            run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0.0, st - 0.06):.3f}", "-i", str(raw), str(tmp / f"{name}_cut.wav")])
+                            cut_ok = duration_of(tmp / f"{name}_cut.wav") > 0.2
+                    if carrier and not cut_ok:
+                        cut_ok = cut_after_carrier(raw, tmp / f"{name}_cut.wav")
+                    if carrier and not cut_ok:
+                        log("   ⚠️ không cắt được câu đệm – đọc từ đứng riêng")
+                        engine.synth(tts_text(it["text"]), vcfg, raw)
+                        carrier = False
+                    elif carrier:
+                        shutil.move(tmp / f"{name}_cut.wav", raw)
                     time_stretch(raw, slow, stretch)
                     finalize_mp3(slow, slow_abs)
                     finalize_mp3(raw, norm_abs)
@@ -458,7 +596,17 @@ def main():
                         "hash": h,
                         "status": "chua_duyet",  # giáo viên duyệt trong trang quản trị
                         "source": "tts",
+                        "carrier": carrier,
                     }
+                    if asr_report:
+                        entry = manifest["entries"][key]
+                        entry["asr"] = asr_report
+                        if asr_report["match"] == "mismatch":
+                            entry["note"] = f"ASR nghe thành “{asr_report['heard']}” – cần nghe kiểm tra"
+                        else:
+                            entry["note"] = "Tự kiểm tra bằng ASR: khớp" + (" (s/x, ch/tr cần nghe tai)" if asr_report["match"] == "loose" else "")
+                            if args.auto_approve:
+                                entry["status"] = "da_duyet"
                     made += 1
                     if made % 10 == 0:  # lưu dần để không mất tiến độ
                         write_manifest(manifest_path, manifest)

@@ -10,6 +10,7 @@ export function MicButton({
   disabled,
   size = 84,
   label,
+  partial,
 }: {
   state: "idle" | "recording" | "scoring";
   level: number;
@@ -17,12 +18,19 @@ export function MicButton({
   disabled?: boolean;
   size?: number;
   label?: string;
+  /** chữ nhận dạng tạm thời khi đang thu */
+  partial?: string;
 }) {
   const reduce = useReducedMotion();
   const rec = state === "recording";
   const lv = Math.min(1, level * 1.4);
   return (
     <div className="relative flex flex-col items-center gap-2">
+      {rec && partial && (
+        <p className="max-w-[18rem] text-center text-sm font-semibold text-primary" aria-live="polite">
+          Cô đang nghe: “{partial}”
+        </p>
+      )}
       <div className="relative grid place-items-center" style={{ width: size * 1.9, height: size * 1.9 }}>
         {rec &&
           [0.55, 0.85, 1.15].map((k, i) => (

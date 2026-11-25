@@ -130,6 +130,7 @@ export default function DocVe({ pairId, onFinish }: GameProps) {
               <MicButton
                 state={pr.state}
                 level={pr.level}
+                partial={pr.partial}
                 onPress={() => {
                   if (pr.state === "idle") guideStart();
                   pr.toggle(verse.lines[line]);

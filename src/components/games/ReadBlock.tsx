@@ -35,7 +35,7 @@ export function ReadBlock({ text, itemId, pairId, sound, onScored, onNext, nextL
           />
         )}
       </div>
-      <div className="mt-auto flex justify-center">{(!pr.result || pr.result.status === "retry") && <MicButton state={pr.state} level={pr.level} onPress={() => pr.toggle(text)} label={micLabel ?? "Bấm và đọc"} />}</div>
+      <div className="mt-auto flex justify-center">{(!pr.result || pr.result.status === "retry") && <MicButton state={pr.state} level={pr.level} partial={pr.partial} onPress={() => pr.toggle(text)} label={micLabel ?? "Bấm và đọc"} />}</div>
       {target && <MouthDialog open={mouth} onOpenChange={setMouth} sound={target} wrongSound={pr.result?.wrongSound} />}
     </>
   );

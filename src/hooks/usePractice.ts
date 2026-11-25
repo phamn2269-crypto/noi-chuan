@@ -14,6 +14,7 @@ export function usePractice(opts: { maxMs?: number; onResult?: (r: ScoreResult) 
   const [level, setLevel] = useState(0);
   const [result, setResult] = useState<ScoreResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [partial, setPartial] = useState("");
   const handle = useRef<RecorderHandle | null>(null);
   const target = useRef("");
   const onResult = useRef(opts.onResult);
@@ -34,10 +35,11 @@ export function usePractice(opts: { maxMs?: number; onResult?: (r: ScoreResult) 
       stopAll();
       setError(null);
       setResult(null);
+      setPartial("");
       target.current = text;
       const words = text.split(/\s+/).length;
       try {
-        handle.current = await startRecording({ maxMs: maxMs ?? opts.maxMs ?? Math.min(25000, 2500 + words * 900), onLevel: setLevel, silenceMs: words > 3 ? 1500 : 1000, wantBlob: !!import.meta.env.VITE_SCORING_API_URL });
+        handle.current = await startRecording({ maxMs: maxMs ?? opts.maxMs ?? Math.min(25000, 2500 + words * 900), onLevel: setLevel, onPartial: setPartial, long: words > 2, silenceMs: words > 3 ? 1500 : 1000, wantBlob: !!import.meta.env.VITE_SCORING_API_URL });
         setState("recording");
         const rec = await handle.current.result;
         setState("scoring");
@@ -63,5 +65,5 @@ export function usePractice(opts: { maxMs?: number; onResult?: (r: ScoreResult) 
     onResult.current?.(r);
   }, []);
 
-  return { state, level, result, error, start, stop, toggle, reset, manualJudge, consent };
+  return { state, level, result, error, partial, start, stop, toggle, reset, manualJudge, consent };
 }

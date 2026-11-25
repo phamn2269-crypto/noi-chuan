@@ -104,7 +104,7 @@ export default function PlacementPage() {
         {pr.result && <FeedbackPanel result={pr.result} speakOut={false} onRetry={() => pr.reset()} onNext={() => next(pr.result!.correct)} onManual={(c) => next(c)} nextLabel="Từ tiếp theo" />}
       </div>
       <div className="mt-auto flex flex-col items-center pb-4">
-        {!pr.result && <MicButton state={pr.state} level={pr.level} onPress={() => pr.toggle(w.text)} label={pr.state === "recording" ? "Đang nghe… bấm để dừng" : "Bấm và đọc to"} />}
+        {!pr.result && <MicButton state={pr.state} level={pr.level} partial={pr.partial} onPress={() => pr.toggle(w.text)} label={pr.state === "recording" ? "Đang nghe… bấm để dừng" : "Bấm và đọc to"} />}
         <button className="mt-2 text-sm font-semibold text-muted-foreground underline" onClick={() => next(false)}>
           Bỏ qua từ này
         </button>

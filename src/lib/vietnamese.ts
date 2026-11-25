@@ -31,7 +31,8 @@ export function parseSyllable(syl: string): { onset: string; rest: string } {
   const s = syl.normalize("NFC").toLowerCase();
   for (const o of ONSETS) {
     if (s.startsWith(o)) {
-      // "gi" + phụ âm (gìn, giếng) – vẫn coi gi là phụ âm đầu
+      // "gì", "gìn": chữ i mang dấu là một ký tự → vẫn là phụ âm "gi", i làm nguyên âm
+      if (o === "g" && stripDiacritics(s[1] ?? "") === "i" && s[1] !== "i") return { onset: "gi", rest: s.slice(1) };
       return { onset: o, rest: s.slice(o.length) };
     }
   }
@@ -106,7 +107,9 @@ export function syllableVisemes(syl: string): VisemeKey[] {
     const hit = CODA_POSE.find(([re]) => re.test(coda));
     if (hit) out.push({ pose: hit[1], weight: 0.2 });
   }
-  return out;
+  // chuẩn hóa để các tư thế phủ kín thời lượng âm tiết
+  const sum = out.reduce((a, k) => a + k.weight, 0);
+  return out.map((k) => ({ ...k, weight: k.weight / sum }));
 }
 
 /** Ước lượng mốc thời gian âm tiết khi chưa có forced-alignment (giọng 0,75). */

@@ -77,6 +77,16 @@ App **không gọi TTS trực tiếp** – mọi âm thanh là file tĩnh trong 
 
 Trong app: mặc định phát bản 0,75; "Thường" phát bản normal; "Rùa" phát bản 0,75 với `playbackRate 0.8` (≈0,6, `preservesPitch`). Chỉ phát file **đã duyệt**; thiếu/chưa duyệt → Web Speech API (vi‑VN, 0,75) và ghi vào danh sách cảnh báo trong trang quản trị.
 
+**Tự kiểm tra bằng ASR (khuyến nghị):**
+```bash
+uv pip install faster-whisper
+uv run python ../noi-chuan/scripts/generate_audio.py --verify medium --aligner whisper --auto-approve
+```
+- Từ đơn/cụm 2 âm tiết được đọc trong câu đệm "Con đọc: …" (VieNeu đọc lệch khi đầu vào quá ngắn) rồi cắt theo mốc thời gian từng từ.
+- `--verify medium`: faster-whisper nghe lại; nếu lệch thì tạo lại tối đa 3 lần, giữ bản khớp nhất.
+- `--aligner whisper`: mốc âm tiết từ faster-whisper (không cần PyTorch/whisperX).
+- `--auto-approve`: file khớp ASR được đánh dấu `da_duyet` kèm ghi chú; file lệch giữ `chua_duyet` và hiện ở bộ lọc **"ASR nghe lệch"** trong trang quản trị. ASR (dữ liệu giọng Bắc) không phân biệt s/x, ch/tr, d/gi/r nên các cặp này vẫn cần giáo viên nghe tai.
+
 Kiểm thử pipeline không cần mô hình: `python scripts/generate_audio.py --engine mock --aligner estimate --out /tmp/audio-test` (engine giả lập, không ghi vào `public/audio`).
 
 ## Khẩu hình 3D
