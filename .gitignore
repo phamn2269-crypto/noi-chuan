@@ -5,3 +5,4 @@ tmp
 .env
 __pycache__
 noi-chuan-web.zip
+*.tsbuildinfo
