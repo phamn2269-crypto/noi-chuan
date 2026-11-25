@@ -117,6 +117,7 @@ function ChildStep() {
   const [mascot, setMascot] = useState<MascotKind>("sao");
   const [voice, setVoice] = useState<Voice>("bac");
   const [classCode, setClassCode] = useState("");
+  const [face, setFace] = useState<"m" | "f">("f");
   return (
     <div className="flex flex-1 flex-col">
       <Dots i={2} />
@@ -177,6 +178,19 @@ function ChildStep() {
           </Choice>
         ))}
       </div>
+      <Label>Gương mặt mẫu trong khẩu hình 3D</Label>
+      <div className="grid grid-cols-2 gap-2">
+        {(
+          [
+            ["f", "Bạn gái"],
+            ["m", "Bạn trai"],
+          ] as const
+        ).map(([v, t]) => (
+          <Choice key={v} active={face === v} onClick={() => setFace(v)}>
+            <span className="font-bold">{t}</span>
+          </Choice>
+        ))}
+      </div>
       <div className="mt-3">
         <Field label="Mã lớp (nếu thầy cô cung cấp)" value={classCode} onChange={setClassCode} placeholder="Ví dụ: 3A-2026" />
       </div>
@@ -186,7 +200,7 @@ function ChildStep() {
           className="w-full"
           disabled={!name.trim()}
           onClick={() => {
-            addChild({ name: name.trim(), nickname: nickname.trim() || name.trim(), grade, mode, mascot, voice, classCode: classCode.trim() || undefined });
+            addChild({ name: name.trim(), nickname: nickname.trim() || name.trim(), grade, mode, mascot, voice, face, classCode: classCode.trim() || undefined });
             nav("/placement");
           }}
         >

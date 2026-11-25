@@ -12,7 +12,7 @@ export function labelNames(highlight: string[], showAll: boolean) {
 }
 
 /** Trong Canvas: chiếu mốc 3D → tọa độ màn hình và cập nhật style của các nhãn DOM. */
-export function LabelProjector({ stateRef, els, offset }: { stateRef: React.MutableRefObject<TractState | null>; els: React.MutableRefObject<Record<string, HTMLDivElement | null>>; offset: THREE.Vector3 }) {
+export function LabelProjector({ stateRef, els, parent }: { stateRef: React.MutableRefObject<TractState | null>; els: React.MutableRefObject<Record<string, HTMLDivElement | null>>; parent: React.RefObject<THREE.Object3D | null> }) {
   const { camera, size } = useThree();
   const v = new THREE.Vector3();
   useFrame(() => {
@@ -24,7 +24,9 @@ export function LabelProjector({ stateRef, els, offset }: { stateRef: React.Muta
         el.style.opacity = "0";
         continue;
       }
-      v.copy(p).add(offset).project(camera);
+      v.copy(p);
+      if (parent.current) v.applyMatrix4(parent.current.matrixWorld);
+      v.project(camera);
       const visible = v.z < 1 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1;
       el.style.opacity = visible ? "1" : "0";
       el.style.transform = `translate(${((v.x + 1) / 2) * size.width}px, ${((1 - v.y) / 2) * size.height}px)`;

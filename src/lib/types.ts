@@ -109,6 +109,8 @@ export interface Phoneme {
   kidHint: string;
   teenHint: string;
   tip?: string;
+  /** trọng số biểu cảm trên gương mặt thật (viseme) */
+  face?: Record<string, number>;
 }
 export interface PhonemesFile {
   schemaVersion: number;

@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import MouthViewer from "@/components/three/MouthViewer";
 import { MouthDriver } from "@/components/three/driver";
 import type { ViewMode } from "@/components/three/VocalTract";
+import type { HeadKind } from "@/components/three/RealHead";
 
 export default function RenderPage() {
   const [q] = useSearchParams();
@@ -25,5 +26,6 @@ export default function RenderPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [driver, pose]);
-  return <MouthViewer driver={driver} view={view} airflow={q.get("air") !== "0"} labels={labels} focus={pose} className="h-screen w-screen" />;
+  const face = (q.get("face") || null) as HeadKind | null;
+  return <MouthViewer driver={driver} view={view} airflow={q.get("air") !== "0"} labels={labels} focus={pose} face={face} className="h-screen w-screen" />;
 }

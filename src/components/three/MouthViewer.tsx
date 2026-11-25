@@ -10,15 +10,33 @@ import { VocalTract, type TractState, type ViewMode } from "./VocalTract";
 import { GlbTract } from "./GlbTract";
 import { Airflow } from "./Airflow";
 import { LabelOverlay, LabelProjector, labelNames } from "./Labels";
+import { RealHead, type HeadFit, type HeadKind } from "./RealHead";
 import type { MouthDriver } from "./driver";
 
-const PRESETS: Record<ViewMode, { pos: [number, number, number]; target: [number, number, number]; az: [number, number] }> = {
+type Presets = Record<ViewMode, { pos: [number, number, number]; target: [number, number, number]; az: [number, number] }>;
+
+/** Camera theo khung bao của gương mặt thật (hệ VocalTract, trước khi dời nhóm −0,6). */
+function presetsFor(fit: HeadFit): Presets {
+  const c = fit.box.getCenter(new THREE.Vector3());
+  const sz = fit.box.getSize(new THREE.Vector3());
+  const d = Math.max(sz.x, sz.y) * 2.05;
+  const cx = c.x - 0.6;
+  const cy = c.y - sz.y * 0.04;
+  return {
+    // mặt cắt: lệch nhẹ về phía mặt để thấy khối đầu 3D
+    side: { pos: [cx + d * 0.18, cy + d * 0.04, d * 0.98], target: [cx, cy, 0], az: [-0.95, 0.95] },
+    front: { pos: [cx + d * 0.9, cy + sz.y * 0.05, 0], target: [cx + sz.x * 0.2, cy + sz.y * 0.05, 0], az: [Math.PI / 2 - 1.1, Math.PI / 2 + 1.1] },
+    xray: { pos: [cx + d * 0.62, cy + d * 0.22, d * 0.78], target: [cx, cy, 0], az: [-0.4, 1.9] },
+  };
+}
+
+const PRESETS: Presets = {
   side: { pos: [0.9, -0.2, 17.5], target: [0.9, -0.4, 0], az: [-0.95, 0.95] },
   front: { pos: [15, 0.8, 0], target: [3.2, 0.0, 0], az: [Math.PI / 2 - 0.9, Math.PI / 2 + 0.9] },
   xray: { pos: [10, 3.6, 13], target: [0.8, -0.2, 0], az: [-0.4, 1.9] },
 };
 
-function CameraRig({ view, compact }: { view: ViewMode; compact?: boolean }) {
+function CameraRig({ view, compact, presets }: { view: ViewMode; compact?: boolean; presets: Presets }) {
   const { camera, gl, size } = useThree();
   const controls = useRef<OrbitImpl>(null);
   const anim = useRef(1);
@@ -32,16 +50,18 @@ function CameraRig({ view, compact }: { view: ViewMode; compact?: boolean }) {
       controls.current.minAzimuthAngle = -Infinity;
       controls.current.maxAzimuthAngle = Infinity;
     }
-  }, [view, camera, gl]);
+  }, [view, camera, gl, presets]);
 
   // màn hình hẹp → lùi camera ra để vừa khung
-  const distScale = size.width < 420 ? 1.25 : compact ? 1.15 : 1;
+  // khung dọc (điện thoại) → lùi camera theo tỉ lệ khung để thấy trọn đầu
+  const aspect = size.width / Math.max(1, size.height);
+  const distScale = Math.max(1, 1.05 / aspect) * (compact ? 1.1 : 1);
 
   useFrame((_, dt) => {
     if (anim.current >= 1 || !controls.current) return;
     anim.current = Math.min(1, anim.current + dt * 1.8);
     const e = 1 - Math.pow(1 - anim.current, 3);
-    const p = PRESETS[view];
+    const p = presets[view];
     const tgt = new THREE.Vector3(...p.target);
     const pos = new THREE.Vector3(...p.pos).sub(tgt).multiplyScalar(distScale).add(tgt);
     camera.position.lerpVectors(from.current.pos, pos, e);
@@ -61,7 +81,7 @@ function CameraRig({ view, compact }: { view: ViewMode; compact?: boolean }) {
       enableDamping
       dampingFactor={0.08}
       minDistance={6}
-      maxDistance={24}
+      maxDistance={90}
       minPolarAngle={Math.PI * 0.25}
       maxPolarAngle={Math.PI * 0.72}
       rotateSpeed={0.7}
@@ -96,9 +116,19 @@ export interface MouthViewerProps {
   compact?: boolean;
   className?: string;
   onLowPerformance?: () => void;
+  /** gương mặt thật theo lứa tuổi; null = mô hình sơ đồ */
+  face?: HeadKind | null;
 }
 
-export default function MouthViewer({ driver, view = "side", airflow = true, labels = "focus", focus, compact, className, onLowPerformance }: MouthViewerProps) {
+export default function MouthViewer({ driver, view = "side", airflow = true, labels = "focus", focus, compact, className, onLowPerformance, face = null }: MouthViewerProps) {
+  const [fit, setFit] = useState<HeadFit | null>(null);
+  useEffect(() => setFit(null), [face]);
+  const presets = useMemo(() => (fit ? presetsFor(fit) : PRESETS), [fit]);
+  const interiorRef = useRef<THREE.Group>(null);
+  // khoang miệng giải phẫu co giãn quanh khe môi để khớp gương mặt
+  const S = fit?.interior ?? new THREE.Vector3(1, 1, 1);
+  const st = fit?.stomion ?? new THREE.Vector3();
+  const interiorPos = new THREE.Vector3(st.x - S.x * st.x, st.y - S.y * st.y, 0);
   const stateRef = useRef<TractState | null>(null);
   const [dpr, setDpr] = useState(1.5);
   const [realModel, setRealModel] = useState(false);
@@ -112,8 +142,7 @@ export default function MouthViewer({ driver, view = "side", airflow = true, lab
   const focusPose = focus ?? staticPose;
   const highlight = useMemo(() => phonemes[focusPose]?.highlight ?? [], [focusPose]);
   const labelEls = useRef<Record<string, HTMLDivElement | null>>({});
-  const names = labels === "none" || realModel ? [] : labelNames(highlight, labels === "all");
-  const offset = useMemo(() => new THREE.Vector3(-0.6, 0, 0), []);
+  const names = labels === "none" || realModel || (face && view === "front") ? [] : labelNames(highlight, labels === "all");
 
   return (
     <div
@@ -144,17 +173,19 @@ export default function MouthViewer({ driver, view = "side", airflow = true, lab
         </Environment>
         <Suspense fallback={null}>
           <group position={[-0.6, 0, 0]}>
-            {realModel ? (
-              <GlbTract driver={driver} view={view} highlight={highlight} />
-            ) : (
-              <VocalTract driver={driver} view={view} highlight={highlight} stateRef={stateRef} />
-            )}
-            <Airflow driver={driver} enabled={airflow} frontOnly={view === "front"} section={view === "side"} />
-
+            {face && !realModel && <RealHead kind={face} driver={driver} view={view} onFit={setFit} />}
+            <group ref={interiorRef} position={interiorPos} scale={S}>
+              {realModel ? (
+                <GlbTract driver={driver} view={view} highlight={highlight} />
+              ) : (
+                <VocalTract driver={driver} view={view} highlight={highlight} stateRef={stateRef} realHead={!!face} />
+              )}
+              <Airflow driver={driver} enabled={airflow && !(face && view === "front")} frontOnly={view === "front"} section={view === "side"} />
+            </group>
           </group>
         </Suspense>
-        <CameraRig view={view} compact={compact} />
-        <LabelProjector stateRef={stateRef} els={labelEls} offset={offset} />
+        <CameraRig view={view} compact={compact} presets={presets} />
+        <LabelProjector stateRef={stateRef} els={labelEls} parent={interiorRef} />
       </Canvas>
       <LabelOverlay names={names} highlight={highlight} els={labelEls} compact={compact} />
     </div>

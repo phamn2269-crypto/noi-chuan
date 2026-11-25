@@ -109,16 +109,22 @@ const SECTION_ORDER = [
   "hard_palate", "alveolar_ridge", "gum", "teeth_upper", "soft_palate", "uvula", "tongue", "lip_upper", "lip_lower",
 ];
 
+/** Bộ phận thay bằng gương mặt thật khi dùng RealHead. */
+const REPLACED_BY_REAL_HEAD = ["skin_head", "skin_jaw", "lip_upper", "lip_lower", "jaw"];
+
 export function VocalTract({
   driver,
   view,
   highlight,
   stateRef,
+  realHead,
 }: {
   driver: MouthDriver;
   view: ViewMode;
   highlight: string[];
   stateRef?: React.MutableRefObject<TractState | null>;
+  /** có gương mặt thật bao ngoài: ẩn da/môi sơ đồ; nhìn thẳng chỉ hiện gương mặt thật */
+  realHead?: boolean;
 }) {
   const parts = useMemo<Part[]>(() => {
     const tongue = buildTongue();
@@ -272,6 +278,7 @@ export function VocalTract({
   });
 
   const renderPart = (part: Part) => {
+    if (realHead && (REPLACED_BY_REAL_HEAD.includes(part.name) || view === "front")) return null;
     const visible = section ? part.name !== "tongue" : view === "front" ? FRONT_PARTS.includes(part.name) : part.role !== "airway";
     return (
       <group key={part.name}>
@@ -312,7 +319,7 @@ export function VocalTract({
       <group position={VELUM_PIVOT}>
         <group ref={velumRef}>{parts.filter((p) => p.group === "velum").map(renderPart)}</group>
       </group>
-      {view === "front" && (
+      {view === "front" && !realHead && (
         // nền tối khoang miệng khi nhìn thẳng
         <mesh position={[2.9, -0.05, 0]} rotation-y={Math.PI / 2} scale={[1.05, 0.5, 1]}>
           <circleGeometry args={[1.5, 40]} />

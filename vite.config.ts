@@ -38,8 +38,10 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Tải trước bài học, âm thanh, mô hình 3D và ảnh khẩu hình để dùng khi mạng yếu.
-        globPatterns: ["**/*.{js,css,html,svg,png,webp,woff2,json,mp3,glb,wasm,mp4}"],
+        // Tải trước khung app, bài học và ảnh khẩu hình. Âm thanh & gương mặt 3D được lưu dần khi dùng,
+        // hoặc tải sẵn bằng nút "Tải sẵn để dùng khi mất mạng" (chỉ giọng + gương mặt con đang dùng).
+        globPatterns: ["**/*.{js,css,html,svg,png,webp,woff2,json,wasm}"],
+        globIgnores: ["**/audio/**", "**/mouth/*.mp4"],
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         navigateFallbackDenylist: [/\/audio\//, /\/models\//],
         runtimeCaching: [

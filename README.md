@@ -91,6 +91,13 @@ Kiểm thử pipeline không cần mô hình: `python scripts/generate_audio.py 
 
 ## Khẩu hình 3D
 
+**Gương mặt người thật theo lứa tuổi** (mặc định): Nhí dùng gương mặt trẻ em, Teen dùng gương mặt thiếu niên; phụ huynh chọn bạn trai/bạn gái
+trong hồ sơ. Đầu dạng tượng xám, môi – hàm – lưỡi cử động bằng 15 viseme chuẩn theo bảng `face` trong `data/phonemes.json`.
+Ở mặt cắt dọc, đường viền đầu được tính từ chính lưới đầu (đã áp biểu cảm) mỗi khung hình; khoang miệng giải phẫu được đặt khớp
+khe môi – đầu mũi của gương mặt. Nguồn mô hình: Microsoft Rocketbox (MIT) – xem `public/models/heads/README.md`.
+Cài đặt → Khẩu hình → "Sơ đồ" để dùng lại mô hình sơ đồ.
+
+
 - Mô hình tạm dựng bằng khối cơ bản, **đúng tên bộ phận** (`lip_upper`, `lip_lower`, `teeth_upper/lower`, `gum`, `alveolar_ridge`, `hard_palate`, `soft_palate`, `uvula`, `tongue`, `jaw`, `nasal_cavity`, `pharynx`, `epiglottis`).
 - Lưỡi và môi dùng **morph targets** tên trùng tham số trong `phonemes.json`; hàm (`jaw_pivot`) và vòm mềm (`velum_pivot`) xoay như xương.
 - 3 chế độ: mặt cắt dọc (mặc định, kiểu hình giải phẫu sách giáo khoa) · nhìn thẳng (môi, độ mở hàm) · xuyên thấu. OrbitControls giới hạn góc.

@@ -6,3 +6,5 @@ tmp
 __pycache__
 noi-chuan-web.zip
 *.tsbuildinfo
+scripts/heads/nm
+scripts/heads/*.fbx

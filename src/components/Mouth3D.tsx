@@ -2,7 +2,8 @@
 import { Component, lazy, Suspense, useEffect, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Eye, Layers, ScanFace, Tag, Wind } from "lucide-react";
-import { useApp } from "@/store/app";
+import { useApp, useChild } from "@/store/app";
+import type { HeadKind } from "./three/RealHead";
 import { isLowEndDevice, webglSupported } from "@/lib/device";
 import { asset, cn } from "@/lib/utils";
 import { phonemes } from "@/lib/content";
@@ -47,6 +48,10 @@ export function Mouth3D({
   title?: string;
 }) {
   const { use3d, onLowPerformance } = use3DMode();
+  const child = useChild();
+  const headStyle = useApp((s) => s.settings.headStyle ?? "real");
+  // gương mặt theo lứa tuổi: Nhí → trẻ em, Teen → thiếu niên
+  const face: HeadKind | null = headStyle === "real" ? (`${child?.mode === "teen" ? "teen" : "child"}_${child?.face ?? "f"}` as HeadKind) : null;
   const [view, setView] = useState<ViewMode>(defaultView);
   const [air, setAir] = useState(true);
   const [labels, setLabels] = useState<"focus" | "all">("focus");
@@ -57,7 +62,7 @@ export function Mouth3D({
       {use3d ? (
         <ThreeBoundary fallback={<MouthFallback driver={driver} view={view} focus={focus} />}>
           <Suspense fallback={<div className="grid h-full place-items-center text-sm text-white/70">Đang tải mô hình 3D…</div>}>
-            <MouthViewer driver={driver} view={view} airflow={air} labels={labels} focus={focus} compact={compact} className="h-full w-full" onLowPerformance={onLowPerformance} />
+            <MouthViewer driver={driver} view={view} airflow={air} labels={labels} focus={focus} compact={compact} className="h-full w-full" onLowPerformance={onLowPerformance} face={face} />
           </Suspense>
         </ThreeBoundary>
       ) : (

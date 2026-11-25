@@ -4,7 +4,8 @@
     "params": "Tham số 0..1 (riêng tongueBodyFront là -1..1). Mỗi tham số = một morph target / xương trong mô hình 3D (xem src/components/three/rig.ts). Mô hình GLB thật cần có morph targets trùng tên.",
     "airflow": "oral = qua miệng; nasal = qua mũi; lateral = hai bên lưỡi; groove = rãnh hẹp giữa lưỡi; burst = bật hơi; none = không có luồng hơi",
     "highlight": "Tên bộ phận được làm nổi bật (trùng tên mesh trong mô hình).",
-    "note_s_x": "s = âm uốn lưỡi [ʂ] (đầu lưỡi cong lên), x = âm lưỡi thẳng [s] (đầu lưỡi sau răng dưới, rãnh hẹp). Đây là cách dạy phổ biến trong trường học ('tr, s, r uốn lưỡi'). Muốn đổi, chỉ cần sửa params của s và x ở dưới."
+    "note_s_x": "s = âm uốn lưỡi [ʂ] (đầu lưỡi cong lên), x = âm lưỡi thẳng [s] (đầu lưỡi sau răng dưới, rãnh hẹp). Đây là cách dạy phổ biến trong trường học ('tr, s, r uốn lưỡi'). Muốn đổi, chỉ cần sửa params của s và x ở dưới.",
+    "face": "Trọng số biểu cảm trên gương mặt thật (15 viseme chuẩn sil/PP/FF/TH/DD/kk/CH/SS/nn/RR/aa/E/I/O/U + jawOpen, mouthPucker, mouthPress, mouthStretch, tongueUp…) – xem public/models/heads/"
   },
   "parts": {
     "lip_upper": "môi trên",
@@ -36,7 +37,10 @@
       "airflow": "none",
       "highlight": [],
       "kidHint": "Thả lỏng miệng nhé.",
-      "teenHint": "Tư thế nghỉ: môi khép nhẹ, lưỡi nằm thả lỏng."
+      "teenHint": "Tư thế nghỉ: môi khép nhẹ, lưỡi nằm thả lỏng.",
+      "face": {
+        "sil": 1
+      }
     },
     "a": {
       "label": "a",
@@ -51,7 +55,11 @@
         "jaw"
       ],
       "kidHint": "Há miệng thật to, lưỡi nằm thấp.",
-      "teenHint": "Nguyên âm mở: hàm hạ thấp, lưỡi thấp và hơi lùi."
+      "teenHint": "Nguyên âm mở: hàm hạ thấp, lưỡi thấp và hơi lùi.",
+      "face": {
+        "aa": 1,
+        "jawOpen": 0.15
+      }
     },
     "o": {
       "label": "o",
@@ -68,7 +76,10 @@
         "lip_lower"
       ],
       "kidHint": "Môi tròn như chữ o.",
-      "teenHint": "Môi tròn, hàm mở vừa, lưỡi lùi về sau."
+      "teenHint": "Môi tròn, hàm mở vừa, lưỡi lùi về sau.",
+      "face": {
+        "O": 1
+      }
     },
     "u": {
       "label": "u",
@@ -86,7 +97,11 @@
         "tongue_root"
       ],
       "kidHint": "Chu môi ra phía trước như thổi nến.",
-      "teenHint": "Môi tròn chu, cuống lưỡi nâng về vòm mềm."
+      "teenHint": "Môi tròn chu, cuống lưỡi nâng về vòm mềm.",
+      "face": {
+        "U": 1,
+        "mouthPucker": 0.3
+      }
     },
     "i": {
       "label": "i",
@@ -103,7 +118,11 @@
         "hard_palate"
       ],
       "kidHint": "Cười tươi, mặt lưỡi nâng cao.",
-      "teenHint": "Môi dẹt, mặt lưỡi nâng cao về phía trước."
+      "teenHint": "Môi dẹt, mặt lưỡi nâng cao về phía trước.",
+      "face": {
+        "I": 1,
+        "mouthStretch": 0.2
+      }
     },
     "m": {
       "label": "m",
@@ -121,7 +140,11 @@
         "nasal_cavity"
       ],
       "kidHint": "Mím môi, cho hơi ra mũi: mmm.",
-      "teenHint": "Hai môi khép, vòm mềm hạ, hơi thoát qua mũi."
+      "teenHint": "Hai môi khép, vòm mềm hạ, hơi thoát qua mũi.",
+      "face": {
+        "PP": 1,
+        "mouthPress": 0.4
+      }
     },
     "v": {
       "label": "v",
@@ -136,7 +159,10 @@
         "teeth_upper"
       ],
       "kidHint": "Răng trên chạm nhẹ môi dưới.",
-      "teenHint": "Răng trên tì môi dưới, hơi đi qua khe hẹp (âm môi–răng)."
+      "teenHint": "Răng trên tì môi dưới, hơi đi qua khe hẹp (âm môi–răng).",
+      "face": {
+        "FF": 1
+      }
     },
     "n": {
       "label": "n",
@@ -159,7 +185,11 @@
       ],
       "kidHint": "Chạm đầu lưỡi vào lợi trên và cho hơi ra mũi",
       "teenHint": "Đầu lưỡi chạm lợi trên, vòm mềm hạ xuống để hơi thoát qua mũi. Bịt mũi lại sẽ thấy khó nói n.",
-      "tip": "Bịt mũi thử: nói n sẽ thấy nghẹt, nói l thì không."
+      "tip": "Bịt mũi thử: nói n sẽ thấy nghẹt, nói l thì không.",
+      "face": {
+        "nn": 1,
+        "tongueUp": 0.7
+      }
     },
     "l": {
       "label": "l",
@@ -183,7 +213,13 @@
       ],
       "kidHint": "Chạm đầu lưỡi vào lợi trên, hơi đi ra hai bên lưỡi, không ra mũi",
       "teenHint": "Đầu lưỡi chạm lợi trên, hai bên lưỡi hạ xuống để hơi thoát hai bên. Vòm mềm nâng, đóng đường mũi.",
-      "tip": "Kéo dài 'lllla' – hơi đi qua miệng, bịt mũi vẫn nói được."
+      "tip": "Kéo dài 'lllla' – hơi đi qua miệng, bịt mũi vẫn nói được.",
+      "face": {
+        "nn": 0.6,
+        "DD": 0.4,
+        "tongueUp": 0.9,
+        "jawOpen": 0.08
+      }
     },
     "t": {
       "label": "t",
@@ -202,7 +238,11 @@
         "alveolar_ridge"
       ],
       "kidHint": "Đầu lưỡi chạm lợi trên rồi bật nhẹ.",
-      "teenHint": "Đầu lưỡi chặn ở lợi trên rồi bật hơi."
+      "teenHint": "Đầu lưỡi chặn ở lợi trên rồi bật hơi.",
+      "face": {
+        "DD": 1,
+        "tongueUp": 0.5
+      }
     },
     "s": {
       "label": "s",
@@ -225,7 +265,12 @@
       ],
       "kidHint": "Uốn cong đầu lưỡi lên gần vòm miệng rồi thổi hơi nhẹ ra",
       "teenHint": "Âm uốn lưỡi: đầu lưỡi cong lên gần vòm cứng (không chạm), hơi xát qua khe hẹp.",
-      "tip": "Nhớ mẹo: tr, s, r đều uốn lưỡi."
+      "tip": "Nhớ mẹo: tr, s, r đều uốn lưỡi.",
+      "face": {
+        "SS": 0.6,
+        "CH": 0.3,
+        "tongueUp": 0.5
+      }
     },
     "x": {
       "label": "x",
@@ -250,7 +295,11 @@
       ],
       "kidHint": "Để lưỡi thẳng, đầu lưỡi sau răng dưới, thổi hơi qua rãnh hẹp giữa lưỡi",
       "teenHint": "Âm lưỡi thẳng: đầu lưỡi tựa sau răng dưới, mặt lưỡi nâng tạo rãnh hẹp, hơi xát ra giữa hai hàm răng.",
-      "tip": "Nghe như tiếng rắn 'xxxx', lưỡi không cong."
+      "tip": "Nghe như tiếng rắn 'xxxx', lưỡi không cong.",
+      "face": {
+        "SS": 1,
+        "mouthStretch": 0.15
+      }
     },
     "ch": {
       "label": "ch",
@@ -272,7 +321,10 @@
       ],
       "kidHint": "Áp mặt lưỡi lên vòm cứng rồi bật ra, lưỡi thẳng không cong",
       "teenHint": "Mặt lưỡi áp vào vòm cứng rồi bật ra; đầu lưỡi hạ, không uốn.",
-      "tip": "Ch: lưỡi phẳng. Tr: lưỡi cong."
+      "tip": "Ch: lưỡi phẳng. Tr: lưỡi cong.",
+      "face": {
+        "CH": 1
+      }
     },
     "tr": {
       "label": "tr",
@@ -293,7 +345,12 @@
       ],
       "kidHint": "Cong đầu lưỡi lên chạm vòm cứng rồi bật ra",
       "teenHint": "Âm uốn lưỡi: đầu lưỡi cong ngược chạm vòm cứng phía sau lợi trên, rồi bật hơi.",
-      "tip": "Nhớ mẹo: tr, s, r đều uốn lưỡi."
+      "tip": "Nhớ mẹo: tr, s, r đều uốn lưỡi.",
+      "face": {
+        "CH": 0.6,
+        "RR": 0.4,
+        "tongueUp": 0.6
+      }
     },
     "r": {
       "label": "r",
@@ -310,7 +367,11 @@
         "hard_palate"
       ],
       "kidHint": "Cong đầu lưỡi lên, không chạm vòm, cho hơi ra miệng.",
-      "teenHint": "Đầu lưỡi cong lên gần vòm cứng nhưng không chạm, hơi đi qua miệng."
+      "teenHint": "Đầu lưỡi cong lên gần vòm cứng nhưng không chạm, hơi đi qua miệng.",
+      "face": {
+        "RR": 1,
+        "tongueUp": 0.4
+      }
     }
   }
 }

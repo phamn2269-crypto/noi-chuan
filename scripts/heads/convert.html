@@ -1,0 +1,126 @@
+<!doctype html><html><body><script type="importmap">{"imports":{"three":"./nm/three/build/three.module.js","three/addons/":"./nm/three/examples/jsm/"}}</script>
+<script type="module">
+// Chuyển nhân vật Rocketbox (FBX, có 175 biểu cảm) → GLB chỉ phần đầu, tư thế gốc, ~28 biểu cảm phát âm.
+import * as THREE from "three";
+import { FBXLoader } from "three/addons/loaders/FBXLoader.js";
+import { GLTFExporter } from "three/addons/exporters/GLTFExporter.js";
+import { mergeVertices } from "three/addons/utils/BufferGeometryUtils.js";
+
+const KEEP = {
+  sil: ["AA_VI_00_Sil"], PP: ["AA_VI_01_PP"], FF: ["AA_VI_02_FF"], TH: ["AA_VI_03_TH"], DD: ["AA_VI_04_DD"], kk: ["AA_VI_05_KK"],
+  CH: ["AA_VI_06_CH"], SS: ["AA_VI_07_SS"], nn: ["AA_VI_08_nn"], RR: ["AA_VI_09_RR"], aa: ["AA_VI_10_aa"], E: ["AA_VI_11_E"],
+  I: ["AA_VI_12_I"], O: ["AA_VI_13_O"], U: ["AA_VI_14_U"],
+  jawOpen: ["AK_25_JawOpen"], mouthClose: ["AK_27_MouthClose"], mouthFunnel: ["AK_32_MouthFunnel"], mouthPucker: ["AK_38_MouthPucker"],
+  mouthPress: ["AK_36_MouthPressLeft", "AK_37_MouthPressRight"], mouthRollLower: ["AK_40_MouthRollLower"],
+  mouthStretch: ["AK_46_MouthStretchLeft", "AK_47_MouthStretchRight"], mouthSmile: ["AK_44_MouthSmileLeft", "AK_45_MouthSmileRight"],
+  tongueUp: ["HB_12_TongueUp"], tongueDown: ["HB_11_TongueDown"], tongueOut: ["AK_52_TongueOut"], tongueIn: ["HB_09_TongueIn"],
+  blink: ["AK_09_EyeBlinkLeft", "AK_10_EyeBlinkRight"],
+};
+
+async function convert(file) {
+  const obj = new FBXLoader().parse(await (await fetch(file)).arrayBuffer(), "");
+  obj.updateMatrixWorld(true);
+  let mesh; obj.traverse((o) => { if (o.isSkinnedMesh) mesh = o; });
+  const g = mesh.geometry, pos = g.attributes.position, idx = g.index;
+  const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+  const dict = mesh.morphTargetDictionary, mpos = g.morphAttributes.position, rel = g.morphTargetsRelative;
+  const find = (n) => { const k = Object.keys(dict).find((x) => x.endsWith("." + n) || x === n); return k === undefined ? -1 : dict[k]; };
+  const keepIdx = Object.fromEntries(Object.entries(KEEP).map(([k, ns]) => [k, ns.map(find)]));
+
+  // đổi hệ: mặt hướng +x (trước), y lên, z ngang  (xoay quanh y +90°), cm → mét*… (giữ cm, scale sau)
+  const toMine = new THREE.Matrix4().makeRotationY(Math.PI / 2);
+  const tri = []; // [vertexIndex, part]
+  const v = new THREE.Vector3(), w = new THREE.Vector3();
+  const skinned = (k, delta) => { v.fromBufferAttribute(pos, k); if (delta) v.add(delta); mesh.applyBoneTransform(k, v); return v.applyMatrix4(mesh.matrixWorld).applyMatrix4(toMine).clone(); };
+
+  const headGroups = g.groups.filter((gr) => /head/i.test(mats[gr.materialIndex].name));
+  const corners = [];
+  headGroups.forEach((gr, gi) => { for (let i = gr.start; i < gr.start + gr.count; i++) corners.push({ k: idx ? idx.getX(i) : i, gi }); });
+  // nhóm lớn nhất = da; nhóm có tâm phía trước & thấp = trong miệng/mắt; nhóm phía sau = tóc
+  const sizes = headGroups.map((gr) => gr.count);
+  const skinGroup = sizes.indexOf(Math.max(...sizes));
+  const N = corners.length;
+  const P = new Float32Array(N * 3);
+  const base = [];
+  for (let i = 0; i < N; i++) { const p = skinned(corners[i].k); base.push(p); P.set([p.x, p.y, p.z], i * 3); }
+  const morphs = {};
+  const dlt = new THREE.Vector3();
+  for (const [name, list] of Object.entries(keepIdx)) {
+    const arr = new Float32Array(N * 3);
+    for (const mi of list) {
+      if (mi < 0) continue;
+      const ma = mpos[mi];
+      for (let i = 0; i < N; i++) {
+        const k = corners[i].k;
+        dlt.fromBufferAttribute(ma, k); if (!rel) { v.fromBufferAttribute(pos, k); dlt.sub(v); }
+        if (dlt.lengthSq() < 1e-12) continue;
+        const p = skinned(k, dlt);
+        arr[i * 3] += p.x - base[i].x; arr[i * 3 + 1] += p.y - base[i].y; arr[i * 3 + 2] += p.z - base[i].z;
+      }
+    }
+    morphs[name] = arr;
+  }
+  // phân loại tam giác: da / mắt / răng / lưỡi / tóc
+  const tOut = morphs.tongueOut, part = [];
+  for (let t = 0; t < N / 3; t++) {
+    const gi = corners[t * 3].gi;
+    let c = new THREE.Vector3(); for (let j = 0; j < 3; j++) c.add(base[t * 3 + j]); c.multiplyScalar(1 / 3);
+    let move = 0; for (let j = 0; j < 3; j++) { const o = (t * 3 + j) * 3; move = Math.max(move, Math.hypot(tOut[o], tOut[o + 1], tOut[o + 2])); }
+    let p;
+    if (move > 0.15) p = "tongue";
+    else if (gi === skinGroup) p = "skin";
+    else p = "other";
+    part.push({ p, c });
+  }
+  // "other": tách mắt (cao) và răng (thấp) theo độ cao so với khóe miệng
+  const others = part.filter((x) => x.p === "other");
+  const ys = others.map((x) => x.c.y).sort((a, b) => a - b);
+  const split = ys.length ? (ys[0] + ys[ys.length - 1]) / 2 : 0;
+  const xs = part.filter((x) => x.p === "skin").map((x) => x.c.x);
+  const backX = Math.min(...xs) + 0.25 * (Math.max(...xs) - Math.min(...xs));
+  for (const x of part) {
+    if (x.p === "other") x.p = x.c.y > split ? "eyes" : "teeth";
+    if (x.p === "hair" || (x.p !== "skin" && x.c.x < backX)) x.p = "hair";
+  }
+  // bỏ tam giác dưới ngang cổ: thấp hơn đỉnh đầu 1,25 × (đỉnh đầu → mắt)…: dùng 62% chiều cao từ đỉnh xuống
+  const skinYs = part.filter((x) => x.p === "skin").map((x) => x.c.y);
+  const topY = Math.max(...skinYs);
+  const tongueYs = part.filter((x) => x.p === "tongue").map((x) => x.c.y);
+  const mouthY = tongueYs.length ? tongueYs.reduce((a, b) => a + b, 0) / tongueYs.length : topY - 16;
+  const cutY = mouthY - 0.62 * (topY - mouthY);
+  for (const x of part) if (x.c.y < cutY) x.p = "cut";
+  // gom tam giác theo phần
+  const order = ["skin", "eyes", "teeth", "tongue", "hair"];
+  const geos = order.map((name) => {
+    const tris = part.map((x, t) => (x.p === name ? t : -1)).filter((t) => t >= 0);
+    if (!tris.length) return null;
+    const gg = new THREE.BufferGeometry();
+    const sel = (src) => { const a = new Float32Array(tris.length * 9); tris.forEach((t, i) => a.set(src.subarray(t * 9, t * 9 + 9), i * 9)); return a; };
+    gg.setAttribute("position", new THREE.BufferAttribute(sel(P), 3));
+    gg.morphAttributes.position = Object.entries(morphs).map(([n, a]) => { const b = new THREE.BufferAttribute(sel(a), 3); b.name = n; return b; });
+    gg.morphTargetsRelative = true;
+    const m = mergeVertices(gg, 1e-4);
+    m.computeVertexNormals();
+    return { name, geo: m };
+  }).filter(Boolean);
+
+  const scene = new THREE.Scene();
+  for (const { name, geo } of geos) {
+    const me = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ name, color: 0x999999 }));
+    me.name = name;
+    me.morphTargetDictionary = Object.fromEntries(Object.keys(morphs).map((n, i) => [n, i]));
+    me.morphTargetInfluences = Object.keys(morphs).map(() => 0);
+    scene.add(me);
+  }
+  const stats = geos.map(({ name, geo }) => [name, geo.attributes.position.count]);
+  const glb = await new GLTFExporter().parseAsync(scene, { binary: true });
+  return { glb, stats };
+}
+
+window.__run = async (file) => {
+  const { glb, stats } = await convert(file);
+  const b = new Uint8Array(glb); let s = ""; for (let i = 0; i < b.length; i += 32768) s += String.fromCharCode(...b.subarray(i, i + 32768));
+  return { b64: btoa(s), stats, bytes: b.length };
+};
+window.__ready = true;
+</script></body></html>

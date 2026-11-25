@@ -4,6 +4,7 @@ import { PageHeader, Disclaimer } from "@/components/common";
 import { Switch } from "@/components/ui/switch";
 import { Mascot, mascotName } from "@/components/Mascot";
 import { InstallCard } from "@/components/InstallCard";
+import { OfflineCard } from "@/components/OfflineCard";
 import { useApp, useChild, type MascotKind } from "@/store/app";
 import { cn } from "@/lib/utils";
 
@@ -30,6 +31,9 @@ export default function ProfilePage() {
         </Row>
         <Row label="Giọng mẫu">
           <Seg value={child.voice} options={[["bac", "Bắc"], ["nam", "Nam"]]} onChange={(v) => updateChild(child.id, { voice: v as "bac" | "nam" })} />
+        </Row>
+        <Row label="Gương mặt mẫu">
+          <Seg value={child.face ?? "f"} options={[["f", "Bạn gái"], ["m", "Bạn trai"]]} onChange={(v) => updateChild(child.id, { face: v as "m" | "f" })} />
         </Row>
         <Row label="Bạn đồng hành">
           <div className="flex gap-1">
@@ -64,6 +68,9 @@ export default function ProfilePage() {
           <Seg value={settings.reducedMotion} options={[["system", "Theo máy"], ["on", "Bật"], ["off", "Tắt"]]} onChange={(v) => setSettings({ reducedMotion: v as never })} />
         </Row>
         <Row label="Khẩu hình">
+          <Seg value={settings.headStyle ?? "real"} options={[["real", "Mặt thật"], ["diagram", "Sơ đồ"]]} onChange={(v) => setSettings({ headStyle: v as never })} />
+        </Row>
+        <Row label="Đồ họa">
           <Seg value={settings.render3d} options={[["auto", "Tự động"], ["3d", "3D"], ["image", "Ảnh"]]} onChange={(v) => setSettings({ render3d: v as never })} />
         </Row>
       </Section>
@@ -96,6 +103,7 @@ export default function ProfilePage() {
         </Link>
       </Section>
       <InstallCard />
+      <OfflineCard />
       <Disclaimer className="px-1" />
     </div>
   );

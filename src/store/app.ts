@@ -15,6 +15,8 @@ export interface Settings {
   haptics: boolean;
   reducedMotion: "system" | "on" | "off";
   render3d: "auto" | "3d" | "image";
+  /** khẩu hình: gương mặt người thật (mặc định) hay mô hình sơ đồ */
+  headStyle?: "real" | "diagram";
 }
 
 export interface Parent {
@@ -35,6 +37,8 @@ export interface Child {
   mascot: MascotKind;
   voice: Voice;
   classCode?: string;
+  /** gương mặt mẫu trong khẩu hình 3D: bạn trai / bạn gái (theo lứa tuổi: Nhí = trẻ em, Teen = thiếu niên) */
+  face?: "m" | "f";
   createdAt: string;
 }
 
