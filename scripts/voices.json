@@ -16,11 +16,14 @@
     },
     "nam": {
       "label": "Nữ miền Nam",
-      "preset": "Thùy Dung",
+      "preset": "Kim Thanh",
       "ref_audio": null,
       "_alternatives": [
-        "Mỹ Duyên"
-      ]
+        "Mỹ Duyên",
+        "Thục Đoan",
+        "Thùy Dung"
+      ],
+      "_chon_vi": "Kim Thanh có tỉ lệ ASR nhận đúng cao nhất trong 4 giọng nữ Nam (câu 87%, từ trong câu đệm 4/12) – kiểm tra ngày 25/11/2026"
     }
   }
 }
