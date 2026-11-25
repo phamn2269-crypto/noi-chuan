@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Flame, Gift, Play, Sparkles, Star, ClipboardList } from "lucide-react";
 import { useState } from "react";
 import { Mascot } from "@/components/Mascot";
+import { InstallCard } from "@/components/InstallCard";
 import { Ring, pairColorVar } from "@/components/common";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -117,6 +118,8 @@ export default function HomePage() {
           <ChevronRight className="h-6 w-6" />
         </Link>
       </motion.div>
+
+      <InstallCard />
 
       {/* Tiến độ từng cặp lỗi */}
       <motion.div variants={item} className="bento p-4">

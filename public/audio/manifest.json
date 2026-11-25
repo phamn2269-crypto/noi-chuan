@@ -1,6 +1,439 @@
 {
  "version": 1,
- "generatedAt": null,
- "voices": { "bac": { "label": "Nữ miền Bắc" }, "nam": { "label": "Nữ miền Nam" } },
- "entries": {}
+ "generatedAt": "2026-11-25T04:53:41+00:00",
+ "voices": {
+  "bac": {
+   "label": "Nữ miền Bắc"
+  },
+  "nam": {
+   "label": "Nữ miền Nam"
+  }
+ },
+ "entries": {
+  "bac/ln-w-01": {
+   "id": "ln-w-01",
+   "voice": "bac",
+   "text": "lá",
+   "slow": "/audio/bac/ln-w-01.mp3",
+   "normal": "/audio/bac/normal/ln-w-01.mp3",
+   "durationSlow": 0.888,
+   "durationNormal": 0.758,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.48,
+     "text": "lá",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.192,
+       "pose": "l"
+      },
+      {
+       "start": 0.192,
+       "end": 0.48,
+       "pose": "a"
+      }
+     ]
+    }
+   ],
+   "hash": "f0070f897b05b7ae",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc lá",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-02": {
+   "id": "ln-w-02",
+   "voice": "bac",
+   "text": "nón",
+   "slow": "/audio/bac/ln-w-02.mp3",
+   "normal": "/audio/bac/normal/ln-w-02.mp3",
+   "durationSlow": 0.967,
+   "durationNormal": 0.81,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.64,
+     "text": "nón",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.205,
+       "pose": "n"
+      },
+      {
+       "start": 0.205,
+       "end": 0.512,
+       "pose": "o"
+      },
+      {
+       "start": 0.512,
+       "end": 0.64,
+       "pose": "n"
+      }
+     ]
+    }
+   ],
+   "hash": "10f1edee19436dc9",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc nón",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-03": {
+   "id": "ln-w-03",
+   "voice": "bac",
+   "text": "làng",
+   "slow": "/audio/bac/ln-w-03.mp3",
+   "normal": "/audio/bac/normal/ln-w-03.mp3",
+   "durationSlow": 0.758,
+   "durationNormal": 0.653,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.54,
+     "text": "làng",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.173,
+       "pose": "l"
+      },
+      {
+       "start": 0.173,
+       "end": 0.432,
+       "pose": "a"
+      },
+      {
+       "start": 0.432,
+       "end": 0.54,
+       "pose": "rest"
+      }
+     ]
+    }
+   ],
+   "hash": "afe80facccf34d14",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "con bọc làng.",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-04": {
+   "id": "ln-w-04",
+   "voice": "bac",
+   "text": "nước",
+   "slow": "/audio/bac/ln-w-04.mp3",
+   "normal": "/audio/bac/normal/ln-w-04.mp3",
+   "durationSlow": 0.549,
+   "durationNormal": 0.496,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.32,
+     "text": "nước",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.102,
+       "pose": "n"
+      },
+      {
+       "start": 0.102,
+       "end": 0.179,
+       "pose": "u"
+      },
+      {
+       "start": 0.179,
+       "end": 0.256,
+       "pose": "o"
+      },
+      {
+       "start": 0.256,
+       "end": 0.32,
+       "pose": "rest"
+      }
+     ]
+    }
+   ],
+   "hash": "11aacb687a1444bd",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc. Nước.",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-05": {
+   "id": "ln-w-05",
+   "voice": "bac",
+   "text": "lửa",
+   "slow": "/audio/bac/ln-w-05.mp3",
+   "normal": "/audio/bac/normal/ln-w-05.mp3",
+   "durationSlow": 1.123,
+   "durationNormal": 0.888,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.68,
+     "text": "lửa",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.272,
+       "pose": "l"
+      },
+      {
+       "start": 0.272,
+       "end": 0.476,
+       "pose": "u"
+      },
+      {
+       "start": 0.476,
+       "end": 0.68,
+       "pose": "a"
+      }
+     ]
+    }
+   ],
+   "hash": "16835d8efe3bd4b5",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc lửa",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-06": {
+   "id": "ln-w-06",
+   "voice": "bac",
+   "text": "nắng",
+   "slow": "/audio/bac/ln-w-06.mp3",
+   "normal": "/audio/bac/normal/ln-w-06.mp3",
+   "durationSlow": 0.81,
+   "durationNormal": 0.679,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.54,
+     "text": "nắng",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.173,
+       "pose": "n"
+      },
+      {
+       "start": 0.173,
+       "end": 0.432,
+       "pose": "a"
+      },
+      {
+       "start": 0.432,
+       "end": 0.54,
+       "pose": "rest"
+      }
+     ]
+    }
+   ],
+   "hash": "59945b071227ccbe",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc nắng",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-07": {
+   "id": "ln-w-07",
+   "voice": "bac",
+   "text": "lợn",
+   "slow": "/audio/bac/ln-w-07.mp3",
+   "normal": "/audio/bac/normal/ln-w-07.mp3",
+   "durationSlow": 0.653,
+   "durationNormal": 0.575,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.58,
+     "text": "lợn",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.186,
+       "pose": "l"
+      },
+      {
+       "start": 0.186,
+       "end": 0.464,
+       "pose": "o"
+      },
+      {
+       "start": 0.464,
+       "end": 0.58,
+       "pose": "n"
+      }
+     ]
+    }
+   ],
+   "hash": "39ec6f1ee3abf2f8",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Còn đọc lợn",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-08": {
+   "id": "ln-w-08",
+   "voice": "bac",
+   "text": "núi",
+   "slow": "/audio/bac/ln-w-08.mp3",
+   "normal": "/audio/bac/normal/ln-w-08.mp3",
+   "durationSlow": 0.888,
+   "durationNormal": 0.758,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.66,
+     "text": "núi",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.211,
+       "pose": "n"
+      },
+      {
+       "start": 0.211,
+       "end": 0.528,
+       "pose": "u"
+      },
+      {
+       "start": 0.528,
+       "end": 0.66,
+       "pose": "i"
+      }
+     ]
+    }
+   ],
+   "hash": "43363e6aade81981",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc Núi",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-09": {
+   "id": "ln-w-09",
+   "voice": "bac",
+   "text": "lê",
+   "slow": "/audio/bac/ln-w-09.mp3",
+   "normal": "/audio/bac/normal/ln-w-09.mp3",
+   "durationSlow": 0.81,
+   "durationNormal": 0.705,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.54,
+     "text": "lê",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.216,
+       "pose": "l"
+      },
+      {
+       "start": 0.216,
+       "end": 0.54,
+       "pose": "i"
+      }
+     ]
+    }
+   ],
+   "hash": "eae5be8800eb9460",
+   "status": "da_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Con đọc Lê",
+    "match": "exact",
+    "acc": 1.0
+   },
+   "note": "Tự kiểm tra bằng ASR: khớp"
+  },
+  "bac/ln-w-10": {
+   "id": "ln-w-10",
+   "voice": "bac",
+   "text": "nồi",
+   "slow": "/audio/bac/ln-w-10.mp3",
+   "normal": "/audio/bac/normal/ln-w-10.mp3",
+   "durationSlow": 0.94,
+   "durationNormal": 0.784,
+   "timings": [
+    {
+     "start": 0.0,
+     "end": 0.64,
+     "text": "nồi",
+     "phonemes": [
+      {
+       "start": 0.0,
+       "end": 0.205,
+       "pose": "n"
+      },
+      {
+       "start": 0.205,
+       "end": 0.512,
+       "pose": "o"
+      },
+      {
+       "start": 0.512,
+       "end": 0.64,
+       "pose": "i"
+      }
+     ]
+    }
+   ],
+   "hash": "1bdf6d74781f9d19",
+   "status": "chua_duyet",
+   "source": "tts",
+   "carrier": true,
+   "asr": {
+    "heard": "Còn đọc nổi.",
+    "match": "mismatch",
+    "acc": 0.0
+   },
+   "note": "ASR nghe thành “Còn đọc nổi.” – cần nghe kiểm tra"
+  }
+ }
 }

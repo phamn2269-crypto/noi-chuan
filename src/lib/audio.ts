@@ -91,8 +91,33 @@ export async function playItem(id: string, opts: { speed?: Speed; text?: string 
   return speak(text, speed);
 }
 
+// Một trình phát dùng chung, "mở khóa" ở lần chạm đầu tiên: iOS Safari chặn audio.play() không nằm trong
+// thao tác chạm, nhưng cho phép phát tiếp trên phần tử đã từng được phát bằng thao tác chạm.
+const SILENT = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=";
+let shared: HTMLAudioElement | null = null;
+function sharedAudio() {
+  if (!shared) shared = new Audio();
+  return shared;
+}
+if (typeof window !== "undefined") {
+  const unlock = () => {
+    const a = sharedAudio();
+    if (!a.src || a.src === SILENT) {
+      a.src = SILENT;
+      a.play().catch(() => {});
+    }
+    window.removeEventListener("pointerdown", unlock, true);
+    window.removeEventListener("keydown", unlock, true);
+  };
+  window.addEventListener("pointerdown", unlock, true);
+  window.addEventListener("keydown", unlock, true);
+}
+
 function playUrl(url: string, speed: Speed, timings: TimingMark[], source: Playback["source"], revoke: boolean, normalScale = 1): Promise<Playback> {
-  const audio = new Audio(url);
+  const audio = sharedAudio();
+  audio.pause();
+  audio.src = url;
+  audio.currentTime = 0;
   const rate = speed === "turtle" ? 0.8 : speed === "half" ? 0.5 : 1;
   audio.playbackRate = rate;
   (audio as HTMLAudioElement & { preservesPitch?: boolean }).preservesPitch = true;

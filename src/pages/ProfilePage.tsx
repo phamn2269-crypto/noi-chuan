@@ -3,6 +3,7 @@ import { ChevronRight, GraduationCap, Moon, Plus, ShieldCheck, Sun, SunMoon, Use
 import { PageHeader, Disclaimer } from "@/components/common";
 import { Switch } from "@/components/ui/switch";
 import { Mascot, mascotName } from "@/components/Mascot";
+import { InstallCard } from "@/components/InstallCard";
 import { useApp, useChild, type MascotKind } from "@/store/app";
 import { cn } from "@/lib/utils";
 
@@ -90,6 +91,7 @@ export default function ProfilePage() {
           <ChevronRight className="h-4 w-4" />
         </Link>
       </Section>
+      <InstallCard />
       <Disclaimer className="px-1" />
     </div>
   );

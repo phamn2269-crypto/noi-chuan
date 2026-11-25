@@ -5,15 +5,22 @@
   "voices": {
     "bac": {
       "label": "Nữ miền Bắc",
-      "preset": "Mai Anh",
+      "preset": "Đoan Trang",
       "ref_audio": null,
-      "_alternatives": ["Trúc Ly", "Quỳnh Anh"]
+      "_alternatives": [
+        "Ngọc Huyền",
+        "Trúc Ly",
+        "Quỳnh Anh"
+      ],
+      "_chon_vi": "Đoan Trang có tỉ lệ ASR nhận đúng cao nhất trong 4 giọng nữ Bắc (từ trong câu đệm 11/24, câu 82%) – kiểm tra ngày 25/11/2026"
     },
     "nam": {
       "label": "Nữ miền Nam",
       "preset": "Thùy Dung",
       "ref_audio": null,
-      "_alternatives": ["Mỹ Duyên"]
+      "_alternatives": [
+        "Mỹ Duyên"
+      ]
     }
   }
 }

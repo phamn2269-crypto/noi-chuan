@@ -7,7 +7,7 @@ import { Mouth3D } from "@/components/Mouth3D";
 import { MouthDriver } from "@/components/three/driver";
 import { SpeakerButton } from "@/components/SpeakerButton";
 import { phonemes, pairs, wordsOf } from "@/lib/content";
-import { speak, stopAll } from "@/lib/audio";
+import { playItem, speak, stopAll } from "@/lib/audio";
 import { poseTrack, estimateTimings } from "@/lib/vietnamese";
 import { cn } from "@/lib/utils";
 import { useChild } from "@/store/app";
@@ -33,7 +33,8 @@ export default function MouthRoomPage() {
     const word = wordsOf().find((w) => w.targetSound === s);
     const text = word?.text ?? sampleSyllable(s);
     if (!text) return;
-    const pb = await speak(text, slow ? "half" : "slow");
+    // có giọng mẫu (đã duyệt) → phát file thật với mốc thời gian thật; không thì đọc bằng Web Speech
+    const pb = word ? await playItem(word.id, { speed: slow ? "half" : "slow" }) : await speak(text, slow ? "half" : "slow");
     // mốc ước lượng nếu đọc bằng Web Speech
     const track = pb.track.length > 1 ? pb.track : poseTrack(estimateTimings(text));
     driver.play(track, pb.clock, slow);
