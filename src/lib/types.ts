@@ -18,6 +18,8 @@ export interface ErrorPair {
   description: string;
   order: number;
   enabled: boolean;
+  /** gợi ý nghe thêm giọng vùng khác (vd giọng Nam phân biệt tr/s rõ hơn) */
+  voiceHint?: { voice: string; note: string };
 }
 
 interface BaseItem {

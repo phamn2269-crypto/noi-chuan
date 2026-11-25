@@ -30,8 +30,8 @@ const STEPS = [
 ] as const;
 
 /** Phát một mục và cho mô hình 3D chạy theo mốc thời gian. */
-export async function playWithMouth(driver: MouthDriver | null, id: string, speed: Speed, restPose: string) {
-  const pb = await playItem(id, { speed });
+export async function playWithMouth(driver: MouthDriver | null, id: string, speed: Speed, restPose: string, voice?: string) {
+  const pb = await playItem(id, { speed, voice });
   driver?.play(pb.track, pb.clock, speed === "half");
   await pb.done;
   driver?.stop(restPose);
@@ -49,6 +49,12 @@ export default function LessonPage() {
   const [stats, setStats] = useState({ correct: 0, total: 0 });
   const [t0] = useState(Date.now());
   const [done, setDone] = useState(false);
+  // giọng tạm thời cho bài này (vd nghe thêm giọng Nam ở bài ch/tr, s/x)
+  const [voiceOverride, setVoiceOverride] = useState<string | undefined>();
+  const voiceToggle =
+    pair.voiceHint && child.voice !== pair.voiceHint.voice ? (
+      <VoiceToggle hint={pair.voiceHint} active={voiceOverride === pair.voiceHint.voice} onChange={(on) => setVoiceOverride(on ? pair.voiceHint!.voice : undefined)} />
+    ) : null;
 
   const content = useMemo(() => {
     const words = wordsOf(pairId).filter((w) => w.difficulty <= difficulty + 1 && !hidden.includes(w.id));
@@ -120,8 +126,8 @@ export default function LessonPage() {
       </div>
       <AnimatePresence mode="wait">
         <motion.div key={step} initial={{ x: 40, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -40, opacity: 0 }} transition={{ duration: 0.25 }} className="flex flex-1 flex-col">
-          {step === 0 && <ListenStep words={content.listen} pairColor={pair.color} onNext={() => setStep(1)} />}
-          {step === 1 && <WatchStep pairId={pairId} words={content.listen} onNext={() => setStep(2)} />}
+          {step === 0 && <ListenStep words={content.listen} pairColor={pair.color} onNext={() => setStep(1)} voice={voiceOverride} voiceToggle={voiceToggle} />}
+          {step === 1 && <WatchStep pairId={pairId} words={content.listen} onNext={() => setStep(2)} voice={voiceOverride} voiceToggle={voiceToggle} />}
           {step === 2 && (
             <PickStep
               items={content.mps}
@@ -165,14 +171,26 @@ function SpeedButtons({ speed, setSpeed }: { speed: Speed; setSpeed: (s: Speed) 
   );
 }
 
-function ListenStep({ words, onNext }: { words: WordItem[]; pairColor: string; onNext: () => void }) {
+function VoiceToggle({ hint, active, onChange }: { hint: { voice: string; note: string }; active: boolean; onChange: (on: boolean) => void }) {
+  return (
+    <button onClick={() => onChange(!active)} aria-pressed={active} className={cn("mt-3 flex w-full items-center gap-3 rounded-2xl p-3 text-left text-sm ring-2 transition", active ? "bg-primary-soft ring-primary" : "bg-card ring-transparent shadow-soft")}>
+      <span className={cn("grid h-6 w-6 shrink-0 place-items-center rounded-md border-2 text-xs font-bold", active ? "border-primary bg-primary text-white" : "border-input")}>{active ? "✓" : ""}</span>
+      <span>
+        <b>Nghe giọng {hint.voice === "nam" ? "miền Nam" : "miền Bắc"}</b>
+        <span className="block text-muted-foreground">{hint.note}</span>
+      </span>
+    </button>
+  );
+}
+
+function ListenStep({ words, onNext, voice, voiceToggle }: { words: WordItem[]; pairColor: string; onNext: () => void; voice?: string; voiceToggle?: React.ReactNode }) {
   const child = useChild()!;
   const [speed, setSpeed] = useState<Speed>("slow");
   const [playing, setPlaying] = useState<string | null>(null);
   const [heard, setHeard] = useState<Set<string>>(new Set());
   const play = async (w: WordItem) => {
     setPlaying(w.id);
-    const pb = await playItem(w.id, { speed });
+    const pb = await playItem(w.id, { speed, voice });
     await pb.done;
     setPlaying(null);
     setHeard((h) => new Set(h).add(w.id));
@@ -186,6 +204,7 @@ function ListenStep({ words, onNext }: { words: WordItem[]; pairColor: string; o
       <div className="mt-3">
         <SpeedButtons speed={speed} setSpeed={setSpeed} />
       </div>
+      {voiceToggle}
       <div className="mt-4 grid grid-cols-2 gap-3">
         {words.map((w) => (
           <motion.button
@@ -211,7 +230,7 @@ function ListenStep({ words, onNext }: { words: WordItem[]; pairColor: string; o
 }
 const phonemeColor = (w: WordItem) => pairById(w.pairId)?.color ?? "ln";
 
-function WatchStep({ pairId, words, onNext }: { pairId: string; words: WordItem[]; onNext: () => void }) {
+function WatchStep({ pairId, words, onNext, voice, voiceToggle }: { pairId: string; words: WordItem[]; onNext: () => void; voice?: string; voiceToggle?: React.ReactNode }) {
   const pair = pairById(pairId)!;
   const child = useChild()!;
   const driver = useMemo(() => new MouthDriver(), []);
@@ -222,7 +241,7 @@ function WatchStep({ pairId, words, onNext }: { pairId: string; words: WordItem[
   const p = phonemes[sound];
   const play = async (speed: Speed) => {
     setBusy(true);
-    await playWithMouth(driver, word.id, speed, sound);
+    await playWithMouth(driver, word.id, speed, sound, voice);
     setBusy(false);
   };
   return (
@@ -251,6 +270,7 @@ function WatchStep({ pairId, words, onNext }: { pairId: string; words: WordItem[
           <Snail className="h-5 w-5" /> Xem chậm 0,5
         </Button>
       </div>
+      {voiceToggle}
       <Button size="lg" className="mt-4 w-full" onClick={onNext}>
         Chơi phân biệt <ArrowRight className="h-5 w-5" />
       </Button>

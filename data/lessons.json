@@ -43,7 +43,11 @@
    "title": "Châu hay Trâu?",
    "description": "Phân biệt ch (mặt lưỡi chạm vòm cứng, lưỡi thẳng) và tr (đầu lưỡi cong lên).",
    "order": 2,
-   "enabled": true
+   "enabled": true,
+   "voiceHint": {
+    "voice": "nam",
+    "note": "Giọng miền Nam uốn lưỡi rõ ở tr – nghe để thấy khác biệt"
+   }
   },
   {
    "id": "s-x",
@@ -58,7 +62,11 @@
    "title": "Sinh hay Xinh?",
    "description": "Phân biệt s (uốn đầu lưỡi lên) và x (lưỡi thẳng, hơi qua rãnh hẹp).",
    "order": 3,
-   "enabled": true
+   "enabled": true,
+   "voiceHint": {
+    "voice": "nam",
+    "note": "Giọng miền Nam uốn lưỡi rõ ở s – nghe để thấy khác biệt"
+   }
   }
  ],
  "placementTest": [

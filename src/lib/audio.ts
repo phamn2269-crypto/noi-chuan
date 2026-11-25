@@ -64,11 +64,11 @@ if (typeof speechSynthesis !== "undefined") speechSynthesis.onvoiceschanged = ()
 export const speechAvailable = () => typeof speechSynthesis !== "undefined";
 
 /** Phát một mục theo id (từ, cặp từ `id#0`, câu, vè, lời nhắc, gợi ý `hint-n`). */
-export async function playItem(id: string, opts: { speed?: Speed; text?: string } = {}): Promise<Playback> {
+export async function playItem(id: string, opts: { speed?: Speed; text?: string; voice?: string } = {}): Promise<Playback> {
   stopAll();
   const speed = opts.speed ?? "slow";
   const text = opts.text ?? textOf(id);
-  const voice = voiceOf();
+  const voice = opts.voice ?? voiceOf();
   const key = `${voice}/${id}`;
   const manifest = await loadManifest();
   const entry = manifest.entries[key];
