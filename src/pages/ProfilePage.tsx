@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { ChevronRight, GraduationCap, Moon, Plus, ShieldCheck, Sun, SunMoon, Users } from "lucide-react";
+import { ChevronRight, CircleHelp, GraduationCap, Moon, Plus, ShieldCheck, Sun, SunMoon, Users } from "lucide-react";
 import { PageHeader, Disclaimer } from "@/components/common";
 import { Switch } from "@/components/ui/switch";
 import { Mascot, mascotName } from "@/components/Mascot";
@@ -84,6 +84,10 @@ export default function ProfilePage() {
         </button>
         <Link to="/parent" className="flex items-center gap-3 px-4 py-3">
           <ShieldCheck className="h-5 w-5 text-muted-foreground" /> <span className="flex-1 font-semibold">Bảng phụ huynh</span>
+          <ChevronRight className="h-4 w-4" />
+        </Link>
+        <Link to="/help" className="flex items-center gap-3 px-4 py-3">
+          <CircleHelp className="h-5 w-5 text-muted-foreground" /> <span className="flex-1 font-semibold">Hướng dẫn & quyền riêng tư</span>
           <ChevronRight className="h-4 w-4" />
         </Link>
         <Link to="/admin" className="flex items-center gap-3 px-4 py-3">

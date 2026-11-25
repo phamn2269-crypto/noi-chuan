@@ -18,6 +18,7 @@ const ParentPage = lazy(() => import("@/pages/ParentPage"));
 const AdminPage = lazy(() => import("@/pages/AdminPage"));
 const PlacementPage = lazy(() => import("@/pages/PlacementPage"));
 const RenderPage = lazy(() => import("@/pages/RenderPage"));
+const HelpPage = lazy(() => import("@/pages/HelpPage"));
 
 function useThemeEffects() {
   const settings = useApp((s) => s.settings);
@@ -79,6 +80,7 @@ export default function App() {
                       <Route path="achievements" element={<AchievementsPage />} />
                       <Route path="profile" element={<ProfilePage />} />
                       <Route path="parent" element={<ParentPage />} />
+                      <Route path="help" element={<HelpPage />} />
                     </Route>
                   </Routes>
                 </Guard>

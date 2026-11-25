@@ -418,17 +418,26 @@ class AsrVerifier:
         return words[-n_last].start
 
     def check(self, text: str, wav: Path, carrier: bool) -> dict:
-        heard = self.heard(wav)
+        """Một lượt nhận dạng: so khớp + (với câu đệm) thời điểm bắt đầu của từ mục tiêu để cắt."""
+        import numpy as np
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(wav), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"], capture_output=True, check=True).stdout
+        segs, _ = self.m.transcribe(np.frombuffer(raw, np.float32), language="vi", beam_size=5, word_timestamps=carrier)
+        segs = list(segs)
+        heard = "".join(x.text for x in segs).strip()
         e = norm_tokens(text)
         h = norm_tokens(heard)
+        start = None
         if carrier:
             h = h[-len(e):]
+            words = [w for sg in segs for w in (sg.words or [])]
+            if len(words) > len(e):
+                start = words[-len(e)].start
         if h == e:
-            return {"heard": heard, "match": "exact", "acc": 1.0}
+            return {"heard": heard, "match": "exact", "acc": 1.0, "start": start}
         same = sum(1 for a, b in zip(e, h) if loose(a) == loose(b))
         acc = round(same / max(len(e), len(h), 1), 3)
         ok = acc >= (1.0 if len(e) <= 2 else 0.9)
-        return {"heard": heard, "match": "loose" if ok else "mismatch", "acc": acc}
+        return {"heard": heard, "match": "loose" if ok else "mismatch", "acc": acc, "start": start}
 
 
 class WhisperWordAligner:
@@ -546,7 +555,7 @@ def main():
                     slow = tmp / f"{name}_slow.wav"
                     carrier = needs_carrier(it["text"])
                     best = None
-                    for attempt in range(3 if verifier else 1):
+                    for attempt in range(2 if verifier else 1):
                         full = tmp / f"{name}_full.wav"
                         engine.synth(CARRIER + tts_text(it["text"]) if carrier else tts_text(it["text"]), vcfg, full)
                         report = verifier.check(it["text"], full, carrier) if verifier else None
@@ -556,10 +565,12 @@ def main():
                         if not report or report["match"] != "mismatch":
                             break
                         log(f"   ↻ ASR nghe thành “{report['heard']}” – tạo lại")
-                    asr_report = best[1] if verifier else None
+                    asr_report = dict(best[1]) if verifier else None
+                    st = asr_report.pop("start", None) if asr_report else None
                     cut_ok = False
                     if carrier and verifier:
-                        st = verifier.word_start(raw, it["text"], len(clean_tokens(it["text"])))
+                        if st is None or st <= 0.2:
+                            st = verifier.word_start(raw, it["text"], len(clean_tokens(it["text"])))
                         if st is not None and st > 0.2:
                             run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0.0, st - 0.06):.3f}", "-i", str(raw), str(tmp / f"{name}_cut.wav")])
                             cut_ok = duration_of(tmp / f"{name}_cut.wav") > 0.2
@@ -574,13 +585,13 @@ def main():
                     time_stretch(raw, slow, stretch)
                     finalize_mp3(slow, slow_abs)
                     finalize_mp3(raw, norm_abs)
-                    if aligner:
+                    if aligner and (not isinstance(aligner, WhisperWordAligner) or len(clean_tokens(it["text"])) > 2):
                         try:
                             timings = aligner.align(it["text"], slow_abs)
                         except Exception as e:  # noqa: BLE001
                             log(f"   ⚠️ alignment lỗi ({e}); dùng ước lượng")
                             timings = align_estimate(it["text"], slow_abs)
-                    elif args.aligner == "estimate":
+                    elif args.aligner in ("estimate", "whisper"):
                         timings = align_estimate(it["text"], slow_abs)
                     else:
                         timings = []

@@ -1,0 +1,79 @@
+// Hướng dẫn cho phụ huynh & thông tin quyền riêng tư.
+import { PageHeader, Disclaimer } from "@/components/common";
+import { InstallCard } from "@/components/InstallCard";
+
+const FAQ: { q: string; a: string[] }[] = [
+  {
+    q: "Cài Nói Chuẩn lên điện thoại thế nào?",
+    a: [
+      "Android: mở bằng Chrome → bấm “Cài app” trong ứng dụng, hoặc menu ⋮ → “Cài đặt ứng dụng”.",
+      "iPhone/iPad: mở bằng Safari → nút Chia sẻ → “Thêm vào MH chính”.",
+      "Sau khi cài, app có biểu tượng riêng và mở toàn màn hình như ứng dụng thường.",
+    ],
+  },
+  {
+    q: "Micro không hoạt động?",
+    a: [
+      "Khi được hỏi, bấm “Cho phép” dùng micro. Nếu lỡ chặn: bấm biểu tượng ổ khóa cạnh địa chỉ trang → Quyền → Micro → Cho phép.",
+      "Nhận dạng giọng nói dùng dịch vụ của trình duyệt nên cần mạng. Nên dùng Chrome (Android, máy tính) hoặc Safari (iPhone).",
+      "Nếu máy không hỗ trợ nhận dạng, app cho bố mẹ nghe và bấm “Con đọc đúng / Chưa đúng”.",
+    ],
+  },
+  {
+    q: "Không có mạng có dùng được không?",
+    a: [
+      "Được: bài học, giọng mẫu, khẩu hình 3D và các trò không dùng micro đều chạy khi mất mạng sau lần mở đầu tiên.",
+      "Phần chấm điểm giọng đọc cần mạng để nhận dạng giọng nói.",
+    ],
+  },
+  {
+    q: "Luyện thế nào cho hiệu quả?",
+    a: [
+      "Mỗi ngày 5–10 phút, đều đặn tốt hơn học dồn. Bắt đầu bằng “Bài hôm nay” – app tự chọn cặp âm con còn yếu.",
+      "Ngồi cùng con ở vài buổi đầu, cùng xem khẩu hình 3D và làm theo trước gương.",
+      "Khen nỗ lực hơn là điểm số. Khi con đọc sai, app tự mở khẩu hình đúng – hãy cùng con thử lại chậm rãi.",
+    ],
+  },
+  {
+    q: "Khi nào nên gặp chuyên viên âm ngữ trị liệu?",
+    a: [
+      "Khi con đã luyện đều vài tháng mà không tiến bộ, nói khó hiểu ở nhiều âm khác nhau, nói lắp, hoặc kèm khó khăn về nghe, nuốt, vận động miệng.",
+      "Nói Chuẩn chỉ hỗ trợ luyện tập, không thay thế đánh giá chuyên môn.",
+    ],
+  },
+  {
+    q: "Dữ liệu của con được giữ thế nào?",
+    a: [
+      "Không lưu file ghi âm: âm thanh chỉ dùng để chấm ngay lúc đó. App chỉ lưu điểm, thống kê và hồ sơ trên chính thiết bị này.",
+      "Camera (Gương Thần) chỉ hiện hình trên máy, không ghi, không gửi đi, và cần bố mẹ cho phép riêng.",
+      "Không quảng cáo, không chat, không liên kết ra ngoài, không mua bán. Bảng xếp hạng chỉ hiện biệt danh trong lớp.",
+      "Bố mẹ xóa toàn bộ dữ liệu của con trong Bảng phụ huynh (cần mã PIN).",
+    ],
+  },
+];
+
+export default function HelpPage() {
+  return (
+    <div className="grid gap-3">
+      <PageHeader title="Hướng dẫn" subtitle="Dành cho bố mẹ và thầy cô" back="/profile" />
+      <InstallCard />
+      {FAQ.map((f) => (
+        <details key={f.q} className="bento group p-4 [&_summary::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-extrabold">
+            {f.q}
+            <span className="text-xl text-muted-foreground transition-transform group-open:rotate-45">+</span>
+          </summary>
+          <ul className="mt-3 grid gap-2 text-[0.95rem] leading-relaxed text-muted-foreground">
+            {f.a.map((x) => (
+              <li key={x} className="flex gap-2">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+                <span>{x}</span>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))}
+      <Disclaimer className="px-1" />
+    </div>
+  );
+}
