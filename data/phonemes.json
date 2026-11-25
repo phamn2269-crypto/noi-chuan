@@ -1,0 +1,316 @@
+{
+  "schemaVersion": 1,
+  "_doc": {
+    "params": "Tham số 0..1 (riêng tongueBodyFront là -1..1). Mỗi tham số = một morph target / xương trong mô hình 3D (xem src/components/three/rig.ts). Mô hình GLB thật cần có morph targets trùng tên.",
+    "airflow": "oral = qua miệng; nasal = qua mũi; lateral = hai bên lưỡi; groove = rãnh hẹp giữa lưỡi; burst = bật hơi; none = không có luồng hơi",
+    "highlight": "Tên bộ phận được làm nổi bật (trùng tên mesh trong mô hình).",
+    "note_s_x": "s = âm uốn lưỡi [ʂ] (đầu lưỡi cong lên), x = âm lưỡi thẳng [s] (đầu lưỡi sau răng dưới, rãnh hẹp). Đây là cách dạy phổ biến trong trường học ('tr, s, r uốn lưỡi'). Muốn đổi, chỉ cần sửa params của s và x ở dưới."
+  },
+  "parts": {
+    "lip_upper": "môi trên",
+    "lip_lower": "môi dưới",
+    "teeth_upper": "răng trên",
+    "teeth_lower": "răng dưới",
+    "gum": "lợi",
+    "alveolar_ridge": "lợi trên",
+    "hard_palate": "vòm cứng",
+    "soft_palate": "vòm mềm",
+    "uvula": "lưỡi gà",
+    "tongue": "lưỡi",
+    "tongue_tip": "đầu lưỡi",
+    "tongue_blade": "mặt lưỡi",
+    "tongue_root": "cuống lưỡi",
+    "tongue_sides": "hai bên lưỡi",
+    "jaw": "hàm dưới",
+    "nasal_cavity": "khoang mũi",
+    "pharynx": "họng",
+    "epiglottis": "nắp thanh quản"
+  },
+  "phonemes": {
+    "rest": {
+      "label": "Nghỉ",
+      "ipa": "",
+      "params": {
+        "jawOpen": 0.06
+      },
+      "airflow": "none",
+      "highlight": [],
+      "kidHint": "Thả lỏng miệng nhé.",
+      "teenHint": "Tư thế nghỉ: môi khép nhẹ, lưỡi nằm thả lỏng."
+    },
+    "a": {
+      "label": "a",
+      "ipa": "a",
+      "params": {
+        "jawOpen": 0.9,
+        "tongueBodyFront": -0.1,
+        "lipSpread": 0.15
+      },
+      "airflow": "oral",
+      "highlight": [
+        "jaw"
+      ],
+      "kidHint": "Há miệng thật to, lưỡi nằm thấp.",
+      "teenHint": "Nguyên âm mở: hàm hạ thấp, lưỡi thấp và hơi lùi."
+    },
+    "o": {
+      "label": "o",
+      "ipa": "ɔ",
+      "params": {
+        "jawOpen": 0.55,
+        "lipRound": 0.75,
+        "tongueBackUp": 0.35,
+        "tongueBodyFront": -0.6
+      },
+      "airflow": "oral",
+      "highlight": [
+        "lip_upper",
+        "lip_lower"
+      ],
+      "kidHint": "Môi tròn như chữ o.",
+      "teenHint": "Môi tròn, hàm mở vừa, lưỡi lùi về sau."
+    },
+    "u": {
+      "label": "u",
+      "ipa": "u",
+      "params": {
+        "jawOpen": 0.2,
+        "lipRound": 1,
+        "tongueBackUp": 0.8,
+        "tongueBodyFront": -0.85
+      },
+      "airflow": "oral",
+      "highlight": [
+        "lip_upper",
+        "lip_lower",
+        "tongue_root"
+      ],
+      "kidHint": "Chu môi ra phía trước như thổi nến.",
+      "teenHint": "Môi tròn chu, cuống lưỡi nâng về vòm mềm."
+    },
+    "i": {
+      "label": "i",
+      "ipa": "i",
+      "params": {
+        "jawOpen": 0.15,
+        "lipSpread": 0.9,
+        "tongueBodyUp": 0.8,
+        "tongueBodyFront": 0.85
+      },
+      "airflow": "oral",
+      "highlight": [
+        "tongue_blade",
+        "hard_palate"
+      ],
+      "kidHint": "Cười tươi, mặt lưỡi nâng cao.",
+      "teenHint": "Môi dẹt, mặt lưỡi nâng cao về phía trước."
+    },
+    "m": {
+      "label": "m",
+      "ipa": "m",
+      "params": {
+        "jawOpen": 0.04,
+        "lipClose": 1,
+        "velumLower": 1
+      },
+      "airflow": "nasal",
+      "highlight": [
+        "lip_upper",
+        "lip_lower",
+        "soft_palate",
+        "nasal_cavity"
+      ],
+      "kidHint": "Mím môi, cho hơi ra mũi: mmm.",
+      "teenHint": "Hai môi khép, vòm mềm hạ, hơi thoát qua mũi."
+    },
+    "v": {
+      "label": "v",
+      "ipa": "v",
+      "params": {
+        "jawOpen": 0.12,
+        "lipDental": 1
+      },
+      "airflow": "oral",
+      "highlight": [
+        "lip_lower",
+        "teeth_upper"
+      ],
+      "kidHint": "Răng trên chạm nhẹ môi dưới.",
+      "teenHint": "Răng trên tì môi dưới, hơi đi qua khe hẹp (âm môi–răng)."
+    },
+    "n": {
+      "label": "n",
+      "ipa": "n",
+      "params": {
+        "jawOpen": 0.16,
+        "tongueTipUp": 1,
+        "velumLower": 1
+      },
+      "airflow": "nasal",
+      "contact": {
+        "tongue": "tongue_tip",
+        "target": "alveolar_ridge"
+      },
+      "highlight": [
+        "tongue_tip",
+        "alveolar_ridge",
+        "soft_palate",
+        "nasal_cavity"
+      ],
+      "kidHint": "Chạm đầu lưỡi vào lợi trên và cho hơi ra mũi",
+      "teenHint": "Đầu lưỡi chạm lợi trên, vòm mềm hạ xuống để hơi thoát qua mũi. Bịt mũi lại sẽ thấy khó nói n.",
+      "tip": "Bịt mũi thử: nói n sẽ thấy nghẹt, nói l thì không."
+    },
+    "l": {
+      "label": "l",
+      "ipa": "l",
+      "params": {
+        "jawOpen": 0.22,
+        "tongueTipUp": 1,
+        "tongueSidesDown": 1,
+        "velumLower": 0
+      },
+      "airflow": "lateral",
+      "contact": {
+        "tongue": "tongue_tip",
+        "target": "alveolar_ridge"
+      },
+      "highlight": [
+        "tongue_tip",
+        "tongue_sides",
+        "alveolar_ridge",
+        "soft_palate"
+      ],
+      "kidHint": "Chạm đầu lưỡi vào lợi trên, hơi đi ra hai bên lưỡi, không ra mũi",
+      "teenHint": "Đầu lưỡi chạm lợi trên, hai bên lưỡi hạ xuống để hơi thoát hai bên. Vòm mềm nâng, đóng đường mũi.",
+      "tip": "Kéo dài 'lllla' – hơi đi qua miệng, bịt mũi vẫn nói được."
+    },
+    "t": {
+      "label": "t",
+      "ipa": "t",
+      "params": {
+        "jawOpen": 0.12,
+        "tongueTipUp": 1
+      },
+      "airflow": "burst",
+      "contact": {
+        "tongue": "tongue_tip",
+        "target": "alveolar_ridge"
+      },
+      "highlight": [
+        "tongue_tip",
+        "alveolar_ridge"
+      ],
+      "kidHint": "Đầu lưỡi chạm lợi trên rồi bật nhẹ.",
+      "teenHint": "Đầu lưỡi chặn ở lợi trên rồi bật hơi."
+    },
+    "s": {
+      "label": "s",
+      "ipa": "ʂ",
+      "params": {
+        "jawOpen": 0.14,
+        "tongueTipUp": 0.55,
+        "tongueTipCurl": 0.75,
+        "tongueGroove": 0.3
+      },
+      "airflow": "groove",
+      "contact": {
+        "tongue": "tongue_tip",
+        "target": "hard_palate",
+        "gap": true
+      },
+      "highlight": [
+        "tongue_tip",
+        "hard_palate"
+      ],
+      "kidHint": "Uốn cong đầu lưỡi lên gần vòm miệng rồi thổi hơi nhẹ ra",
+      "teenHint": "Âm uốn lưỡi: đầu lưỡi cong lên gần vòm cứng (không chạm), hơi xát qua khe hẹp.",
+      "tip": "Nhớ mẹo: tr, s, r đều uốn lưỡi."
+    },
+    "x": {
+      "label": "x",
+      "ipa": "s",
+      "params": {
+        "jawOpen": 0.1,
+        "tongueTipDown": 0.7,
+        "tongueBodyUp": 0.5,
+        "tongueBodyFront": 0.5,
+        "tongueGroove": 1,
+        "lipSpread": 0.35
+      },
+      "airflow": "groove",
+      "contact": {
+        "tongue": "tongue_tip",
+        "target": "teeth_lower"
+      },
+      "highlight": [
+        "tongue_tip",
+        "tongue_blade",
+        "teeth_lower"
+      ],
+      "kidHint": "Để lưỡi thẳng, đầu lưỡi sau răng dưới, thổi hơi qua rãnh hẹp giữa lưỡi",
+      "teenHint": "Âm lưỡi thẳng: đầu lưỡi tựa sau răng dưới, mặt lưỡi nâng tạo rãnh hẹp, hơi xát ra giữa hai hàm răng.",
+      "tip": "Nghe như tiếng rắn 'xxxx', lưỡi không cong."
+    },
+    "ch": {
+      "label": "ch",
+      "ipa": "c",
+      "params": {
+        "jawOpen": 0.12,
+        "tongueTipDown": 0.5,
+        "tongueBodyUp": 1,
+        "tongueBodyFront": 0.6
+      },
+      "airflow": "burst",
+      "contact": {
+        "tongue": "tongue_blade",
+        "target": "hard_palate"
+      },
+      "highlight": [
+        "tongue_blade",
+        "hard_palate"
+      ],
+      "kidHint": "Áp mặt lưỡi lên vòm cứng rồi bật ra, lưỡi thẳng không cong",
+      "teenHint": "Mặt lưỡi áp vào vòm cứng rồi bật ra; đầu lưỡi hạ, không uốn.",
+      "tip": "Ch: lưỡi phẳng. Tr: lưỡi cong."
+    },
+    "tr": {
+      "label": "tr",
+      "ipa": "ʈ",
+      "params": {
+        "jawOpen": 0.15,
+        "tongueTipUp": 0.7,
+        "tongueTipCurl": 1
+      },
+      "airflow": "burst",
+      "contact": {
+        "tongue": "tongue_tip",
+        "target": "hard_palate"
+      },
+      "highlight": [
+        "tongue_tip",
+        "hard_palate"
+      ],
+      "kidHint": "Cong đầu lưỡi lên chạm vòm cứng rồi bật ra",
+      "teenHint": "Âm uốn lưỡi: đầu lưỡi cong ngược chạm vòm cứng phía sau lợi trên, rồi bật hơi.",
+      "tip": "Nhớ mẹo: tr, s, r đều uốn lưỡi."
+    },
+    "r": {
+      "label": "r",
+      "ipa": "ɹ",
+      "params": {
+        "jawOpen": 0.2,
+        "tongueTipUp": 0.5,
+        "tongueTipCurl": 0.65,
+        "lipRound": 0.2
+      },
+      "airflow": "oral",
+      "highlight": [
+        "tongue_tip",
+        "hard_palate"
+      ],
+      "kidHint": "Cong đầu lưỡi lên, không chạm vòm, cho hơi ra miệng.",
+      "teenHint": "Đầu lưỡi cong lên gần vòm cứng nhưng không chạm, hơi đi qua miệng."
+    }
+  }
+}

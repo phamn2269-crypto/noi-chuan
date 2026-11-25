@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Hệ màu "Nói Chuẩn"
+  - Nền off-white trung tính, 1 màu chủ đạo tím-xanh.
+  - Mỗi cặp lỗi một màu phụ: l/n = cam san hô, ch/tr = xanh ngọc, s/x = hồng mận.
+  - *-ink là sắc đậm dùng cho chữ trên nền *-soft (đạt tương phản AA ≥ 4.5:1).
+*/
+@layer base {
+  :root {
+    --background: 45 23% 96%;
+    --foreground: 240 24% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 24% 12%;
+    --muted: 40 16% 92%;
+    --muted-foreground: 240 8% 38%;
+    --primary: 247 84% 62%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 247 90% 95%;
+    --secondary: 247 40% 94%;
+    --secondary-foreground: 247 50% 30%;
+    --accent: 172 70% 92%;
+    --accent-foreground: 174 80% 20%;
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 152 62% 36%;
+    --success-foreground: 0 0% 100%;
+    --success-soft: 145 60% 92%;
+    --warning: 36 95% 48%;
+    --warning-foreground: 30 60% 12%;
+    --warning-soft: 44 100% 92%;
+    --border: 40 14% 88%;
+    --input: 40 14% 85%;
+    --ring: 247 84% 62%;
+    --radius: 1.5rem;
+
+    --ln: 14 88% 58%;
+    --ln-soft: 18 100% 94%;
+    --ln-ink: 12 72% 34%;
+    --chtr: 172 72% 38%;
+    --chtr-soft: 168 60% 92%;
+    --chtr-ink: 176 80% 20%;
+    --sx: 330 72% 56%;
+    --sx-soft: 330 90% 95%;
+    --sx-ink: 330 62% 32%;
+  }
+
+  .dark {
+    --background: 238 26% 8%;
+    --foreground: 240 20% 95%;
+    --card: 238 22% 13%;
+    --card-foreground: 240 20% 95%;
+    --muted: 238 18% 18%;
+    --muted-foreground: 240 10% 70%;
+    --primary: 247 90% 72%;
+    --primary-foreground: 240 40% 10%;
+    --primary-soft: 247 40% 20%;
+    --secondary: 247 25% 20%;
+    --secondary-foreground: 247 80% 88%;
+    --accent: 174 40% 18%;
+    --accent-foreground: 172 70% 80%;
+    --destructive: 0 75% 62%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 150 55% 50%;
+    --success-foreground: 150 60% 8%;
+    --success-soft: 150 40% 16%;
+    --warning: 40 95% 58%;
+    --warning-foreground: 30 60% 10%;
+    --warning-soft: 40 50% 16%;
+    --border: 238 16% 22%;
+    --input: 238 16% 26%;
+    --ring: 247 90% 72%;
+
+    --ln: 16 92% 64%;
+    --ln-soft: 14 45% 18%;
+    --ln-ink: 18 100% 82%;
+    --chtr: 170 60% 50%;
+    --chtr-soft: 172 40% 15%;
+    --chtr-ink: 168 70% 78%;
+    --sx: 330 80% 68%;
+    --sx-soft: 330 35% 18%;
+    --sx-ink: 330 90% 86%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-tap-highlight-color: transparent;
+    font-size: 16px;
+  }
+  /* Chế độ Nhí: chữ tối thiểu 18px, vùng chạm lớn hơn */
+  html.mode-kid {
+    font-size: 18px;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Be Vietnam Pro", system-ui, sans-serif;
+    min-height: 100dvh;
+    overscroll-behavior-y: none;
+  }
+  button {
+    touch-action: manipulation;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  .bento {
+    @apply rounded-3xl bg-card text-card-foreground shadow-soft;
+  }
+  .bg-hero {
+    background:
+      radial-gradient(120% 120% at 0% 0%, hsl(247 90% 70% / 0.95) 0%, transparent 55%),
+      radial-gradient(120% 140% at 100% 100%, hsl(190 90% 55% / 0.85) 0%, transparent 55%),
+      hsl(247 84% 58%);
+  }
+  .bg-grad-ln {
+    background: linear-gradient(135deg, hsl(var(--ln-soft)), hsl(var(--card)));
+  }
+  .bg-grad-chtr {
+    background: linear-gradient(135deg, hsl(var(--chtr-soft)), hsl(var(--card)));
+  }
+  .bg-grad-sx {
+    background: linear-gradient(135deg, hsl(var(--sx-soft)), hsl(var(--card)));
+  }
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-y {
+    animation: none;
+  }
+}
+html.reduce-motion .animate-float-y {
+  animation: none;
+}
+
+/* Lưới không khai báo cột: không cho nội dung dài đẩy rộng quá màn hình (360px) */
+.grid:not([class*="grid-cols"]) {
+  grid-template-columns: minmax(0, 1fr);
+}

@@ -1,0 +1,4 @@
+# Cài trong môi trường của repo VieNeu-TTS (đã `uv sync`), sau đó thêm:
+whisperx>=3.3      # forced alignment tiếng Việt (tùy chọn – không có sẽ dùng ước lượng)
+pyrubberband>=0.4  # chỉ cần nếu ffmpeg không có filter rubberband
+soundfile>=0.12

@@ -1,0 +1,19 @@
+{
+  "_doc": "Chọn giọng sau khi nghe thử: python scripts/generate_audio.py --list-voices. Dùng 'preset' (giọng có sẵn) HOẶC 'ref_audio' (file 3–8 giây của giáo viên đã ký đồng ý, đọc chậm, rõ). Nếu có ref_audio thì ref_audio được ưu tiên.",
+  "vieneu_repo": "https://github.com/kkauto-net/repo-VieNeu-TTS",
+  "vieneu_commit": "3206ed960e317e69bfe09f9d553aecbf1090f32e",
+  "voices": {
+    "bac": {
+      "label": "Nữ miền Bắc",
+      "preset": "Mai Anh",
+      "ref_audio": null,
+      "_alternatives": ["Trúc Ly", "Quỳnh Anh"]
+    },
+    "nam": {
+      "label": "Nữ miền Nam",
+      "preset": "Thùy Dung",
+      "ref_audio": null,
+      "_alternatives": ["Mỹ Duyên"]
+    }
+  }
+}

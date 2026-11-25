@@ -1,0 +1,2397 @@
+{
+ "schemaVersion": 1,
+ "categories": [
+  {
+   "id": "initial",
+   "name": "Phụ âm đầu"
+  },
+  {
+   "id": "final",
+   "name": "Vần cuối"
+  },
+  {
+   "id": "tone",
+   "name": "Thanh điệu"
+  }
+ ],
+ "errorPairs": [
+  {
+   "id": "l-n",
+   "label": "L / N",
+   "category": "initial",
+   "sounds": [
+    "l",
+    "n"
+   ],
+   "color": "ln",
+   "emoji": "🍃",
+   "title": "Lá hay Ná?",
+   "description": "Phân biệt phụ âm đầu l (hơi đi hai bên lưỡi) và n (hơi ra mũi).",
+   "order": 1,
+   "enabled": true
+  },
+  {
+   "id": "ch-tr",
+   "label": "CH / TR",
+   "category": "initial",
+   "sounds": [
+    "ch",
+    "tr"
+   ],
+   "color": "chtr",
+   "emoji": "🐃",
+   "title": "Châu hay Trâu?",
+   "description": "Phân biệt ch (mặt lưỡi chạm vòm cứng, lưỡi thẳng) và tr (đầu lưỡi cong lên).",
+   "order": 2,
+   "enabled": true
+  },
+  {
+   "id": "s-x",
+   "label": "S / X",
+   "category": "initial",
+   "sounds": [
+    "s",
+    "x"
+   ],
+   "color": "sx",
+   "emoji": "⭐",
+   "title": "Sinh hay Xinh?",
+   "description": "Phân biệt s (uốn đầu lưỡi lên) và x (lưỡi thẳng, hơi qua rãnh hẹp).",
+   "order": 3,
+   "enabled": true
+  }
+ ],
+ "placementTest": [
+  "ln-w-01",
+  "ln-w-02",
+  "ln-w-05",
+  "ln-w-08",
+  "ln-w-11",
+  "chtr-w-01",
+  "chtr-w-02",
+  "chtr-w-05",
+  "chtr-w-08",
+  "chtr-w-11",
+  "sx-w-01",
+  "sx-w-02",
+  "sx-w-05",
+  "sx-w-08",
+  "sx-w-11"
+ ],
+ "prompts": [
+  {
+   "id": "ui-welcome",
+   "type": "prompt",
+   "text": "Chào con! Mình cùng luyện nói thật chuẩn nhé."
+  },
+  {
+   "id": "ui-listen",
+   "type": "prompt",
+   "text": "Con hãy nghe cô đọc nhé."
+  },
+  {
+   "id": "ui-watch",
+   "type": "prompt",
+   "text": "Con xem miệng và lưỡi cử động thế nào nhé."
+  },
+  {
+   "id": "ui-discriminate",
+   "type": "prompt",
+   "text": "Con nghe rồi chọn hình đúng nhé."
+  },
+  {
+   "id": "ui-speak",
+   "type": "prompt",
+   "text": "Con bấm nút micro rồi đọc thật to nhé."
+  },
+  {
+   "id": "ui-correct",
+   "type": "prompt",
+   "text": "Giỏi lắm! Con đọc đúng rồi."
+  },
+  {
+   "id": "ui-try-again",
+   "type": "prompt",
+   "text": "Gần đúng rồi. Con thử lại nhé."
+  },
+  {
+   "id": "ui-too-quiet",
+   "type": "prompt",
+   "text": "Cô chưa nghe rõ. Con đọc to hơn một chút nhé."
+  },
+  {
+   "id": "ui-placement",
+   "type": "prompt",
+   "text": "Con đọc lần lượt từng từ nhé. Không sao nếu chưa đúng đâu."
+  },
+  {
+   "id": "ui-done",
+   "type": "prompt",
+   "text": "Con hoàn thành bài rồi. Tuyệt vời!"
+  },
+  {
+   "id": "game-tai-thinh",
+   "type": "prompt",
+   "text": "Con nghe cô đọc rồi chọn hình đúng nhé."
+  },
+  {
+   "id": "game-bong-bong",
+   "type": "prompt",
+   "text": "Con đọc từ trong bong bóng để làm nổ nó nhé."
+  },
+  {
+   "id": "game-duong-dua",
+   "type": "prompt",
+   "text": "Đọc đúng thì xe của con chạy nhanh hơn đó!"
+  },
+  {
+   "id": "game-thu-cung",
+   "type": "prompt",
+   "text": "Mỗi từ đọc đúng là một phần thức ăn cho bạn thú cưng."
+  },
+  {
+   "id": "game-phan-loai",
+   "type": "prompt",
+   "text": "Con kéo từ vào đúng giỏ, rồi đọc to cả giỏ nhé."
+  },
+  {
+   "id": "game-bac-si",
+   "type": "prompt",
+   "text": "Bạn linh vật đọc sai rồi. Con tìm lỗi và đọc lại giúp bạn nhé."
+  },
+  {
+   "id": "game-guong-than",
+   "type": "prompt",
+   "text": "Con nhìn gương và làm miệng giống mô hình nhé."
+  },
+  {
+   "id": "game-doc-ve",
+   "type": "prompt",
+   "text": "Con đọc theo chữ sáng lên nhé."
+  },
+  {
+   "id": "game-truyen",
+   "type": "prompt",
+   "text": "Con đọc đúng câu để lật sang trang mới nhé."
+  },
+  {
+   "id": "game-noi-nhanh",
+   "type": "prompt",
+   "text": "Đọc thật nhanh và thật đúng nhé!"
+  }
+ ],
+ "items": [
+  {
+   "id": "ln-w-01",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lá",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍃"
+   }
+  },
+  {
+   "id": "ln-w-02",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nón",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "👒"
+   }
+  },
+  {
+   "id": "ln-w-03",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "làng",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🏘️"
+   }
+  },
+  {
+   "id": "ln-w-04",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nước",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 2,
+   "image": {
+    "emoji": "💧"
+   }
+  },
+  {
+   "id": "ln-w-05",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lửa",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🔥"
+   }
+  },
+  {
+   "id": "ln-w-06",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nắng",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "☀️"
+   }
+  },
+  {
+   "id": "ln-w-07",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lợn",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐷"
+   }
+  },
+  {
+   "id": "ln-w-08",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "núi",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "⛰️"
+   }
+  },
+  {
+   "id": "ln-w-09",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lê",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍐"
+   }
+  },
+  {
+   "id": "ln-w-10",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nồi",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍲"
+   }
+  },
+  {
+   "id": "ln-w-11",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lúa",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌾"
+   }
+  },
+  {
+   "id": "ln-w-12",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nai",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🦌"
+   }
+  },
+  {
+   "id": "ln-w-13",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lược",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🪮"
+   }
+  },
+  {
+   "id": "ln-w-14",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nến",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🕯️"
+   }
+  },
+  {
+   "id": "ln-w-15",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lạnh",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🥶"
+   }
+  },
+  {
+   "id": "ln-w-16",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nấm",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍄"
+   }
+  },
+  {
+   "id": "ln-w-17",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lưỡi",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 2,
+   "image": {
+    "emoji": "👅"
+   }
+  },
+  {
+   "id": "ln-w-18",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nơ",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🎀"
+   }
+  },
+  {
+   "id": "ln-w-19",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lớp",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🏫"
+   }
+  },
+  {
+   "id": "ln-w-20",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nem",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🥟"
+   }
+  },
+  {
+   "id": "ln-w-21",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lều",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 2,
+   "image": {
+    "emoji": "⛺"
+   }
+  },
+  {
+   "id": "ln-w-22",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "nụ",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌷"
+   }
+  },
+  {
+   "id": "ln-w-23",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "lừa",
+   "targetSound": "l",
+   "confusableSound": "n",
+   "mouthShape": "l",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🫏"
+   }
+  },
+  {
+   "id": "ln-w-24",
+   "type": "word",
+   "pairId": "l-n",
+   "text": "năm",
+   "targetSound": "n",
+   "confusableSound": "l",
+   "mouthShape": "n",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🖐️"
+   }
+  },
+  {
+   "id": "ln-p-01",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "làng",
+     "sound": "l",
+     "image": {
+      "emoji": "🏘️"
+     },
+     "meaning": "ngôi làng",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nàng",
+     "sound": "n",
+     "image": {
+      "emoji": "👸"
+     },
+     "meaning": "nàng công chúa",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-02",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "lo",
+     "sound": "l",
+     "image": {
+      "emoji": "😟"
+     },
+     "meaning": "lo lắng",
+     "mouthShape": "l"
+    },
+    {
+     "text": "no",
+     "sound": "n",
+     "image": {
+      "emoji": "😋"
+     },
+     "meaning": "ăn no",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-03",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "lá",
+     "sound": "l",
+     "image": {
+      "emoji": "🍃"
+     },
+     "meaning": "chiếc lá",
+     "mouthShape": "l"
+    },
+    {
+     "text": "ná",
+     "sound": "n",
+     "image": {
+      "emoji": "🏹"
+     },
+     "meaning": "cái ná",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-04",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "lửa",
+     "sound": "l",
+     "image": {
+      "emoji": "🔥"
+     },
+     "meaning": "ngọn lửa",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nửa",
+     "sound": "n",
+     "image": {
+      "emoji": "🌗"
+     },
+     "meaning": "một nửa",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-05",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "lên",
+     "sound": "l",
+     "image": {
+      "emoji": "⬆️"
+     },
+     "meaning": "đi lên",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nên",
+     "sound": "n",
+     "image": {
+      "emoji": "✅"
+     },
+     "meaning": "nên làm",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-06",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "lắm",
+     "sound": "l",
+     "image": {
+      "emoji": "💯"
+     },
+     "meaning": "nhiều lắm",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nắm",
+     "sound": "n",
+     "image": {
+      "emoji": "✊"
+     },
+     "meaning": "nắm tay",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-07",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "lặng",
+     "sound": "l",
+     "image": {
+      "emoji": "🤫"
+     },
+     "meaning": "im lặng",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nặng",
+     "sound": "n",
+     "image": {
+      "emoji": "🏋️"
+     },
+     "meaning": "nặng nề",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-08",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "lối",
+     "sound": "l",
+     "image": {
+      "emoji": "🛤️"
+     },
+     "meaning": "lối đi",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nối",
+     "sound": "n",
+     "image": {
+      "emoji": "🔗"
+     },
+     "meaning": "nối dây",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-09",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "lồi",
+     "sound": "l",
+     "image": {
+      "emoji": "🫧"
+     },
+     "meaning": "lồi lõm",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nồi",
+     "sound": "n",
+     "image": {
+      "emoji": "🍲"
+     },
+     "meaning": "cái nồi",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-p-10",
+   "type": "minimal_pair",
+   "pairId": "l-n",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "lam",
+     "sound": "l",
+     "image": {
+      "emoji": "🔵"
+     },
+     "meaning": "màu lam",
+     "mouthShape": "l"
+    },
+    {
+     "text": "nam",
+     "sound": "n",
+     "image": {
+      "emoji": "🧭"
+     },
+     "meaning": "hướng nam",
+     "mouthShape": "n"
+    }
+   ]
+  },
+  {
+   "id": "ln-s-01",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Nắng lên, lúa chín vàng.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 2
+  },
+  {
+   "id": "ln-s-02",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Nàng tiên đội nón lá.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 2
+  },
+  {
+   "id": "ln-s-03",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Lan nấu nồi nước lá.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 2
+  },
+  {
+   "id": "ln-s-04",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Bố lái xe lên núi.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 2
+  },
+  {
+   "id": "ln-s-05",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Chú lợn nằm lì trong chuồng.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 3
+  },
+  {
+   "id": "ln-s-06",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Lá non nảy lộc mùa xuân.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 3
+  },
+  {
+   "id": "ln-s-07",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Nước lũ lên nhanh lắm.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 3
+  },
+  {
+   "id": "ln-s-08",
+   "type": "sentence",
+   "pairId": "l-n",
+   "text": "Nam lấy lược chải tóc.",
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "difficulty": 3
+  },
+  {
+   "id": "ln-v-01",
+   "type": "verse",
+   "pairId": "l-n",
+   "difficulty": 3,
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "subtype": "ca_dao",
+   "title": "Lúa nếp làng",
+   "lines": [
+    "Lúa nếp là lúa nếp làng,",
+    "Lúa lên lớp lớp, lòng nàng lâng lâng."
+   ],
+   "text": "Lúa nếp là lúa nếp làng, Lúa lên lớp lớp, lòng nàng lâng lâng."
+  },
+  {
+   "id": "ln-v-02",
+   "type": "verse",
+   "pairId": "l-n",
+   "difficulty": 3,
+   "targetSounds": [
+    "l",
+    "n"
+   ],
+   "mouthShape": "l",
+   "subtype": "cau_do",
+   "title": "Đố con: cái gì?",
+   "lines": [
+    "Cái gì làm bằng lá,",
+    "Nắng lửa chẳng lo,",
+    "Lên nương nàng đội,",
+    "Nghiêng nghiêng che đầu?"
+   ],
+   "answer": "Cái nón lá",
+   "answerEmoji": "👒",
+   "text": "Cái gì làm bằng lá, Nắng lửa chẳng lo, Lên nương nàng đội, Nghiêng nghiêng che đầu?"
+  },
+  {
+   "id": "chtr-w-01",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "cha",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "👨"
+   }
+  },
+  {
+   "id": "chtr-w-02",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trâu",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐃"
+   }
+  },
+  {
+   "id": "chtr-w-03",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chó",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐕"
+   }
+  },
+  {
+   "id": "chtr-w-04",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "tre",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🎋"
+   }
+  },
+  {
+   "id": "chtr-w-05",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chim",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐦"
+   }
+  },
+  {
+   "id": "chtr-w-06",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trăng",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌕"
+   }
+  },
+  {
+   "id": "chtr-w-07",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chuối",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🍌"
+   }
+  },
+  {
+   "id": "chtr-w-08",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trống",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🥁"
+   }
+  },
+  {
+   "id": "chtr-w-09",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chè",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍧"
+   }
+  },
+  {
+   "id": "chtr-w-10",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trứng",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🥚"
+   }
+  },
+  {
+   "id": "chtr-w-11",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chổi",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🧹"
+   }
+  },
+  {
+   "id": "chtr-w-12",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trường",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🏫"
+   }
+  },
+  {
+   "id": "chtr-w-13",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chân",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🦶"
+   }
+  },
+  {
+   "id": "chtr-w-14",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "tranh",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🖼️"
+   }
+  },
+  {
+   "id": "chtr-w-15",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chợ",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🛒"
+   }
+  },
+  {
+   "id": "chtr-w-16",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trà",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍵"
+   }
+  },
+  {
+   "id": "chtr-w-17",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "cháo",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🥣"
+   }
+  },
+  {
+   "id": "chtr-w-18",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trái",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍎"
+   }
+  },
+  {
+   "id": "chtr-w-19",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chanh",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍋"
+   }
+  },
+  {
+   "id": "chtr-w-20",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trời",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌤️"
+   }
+  },
+  {
+   "id": "chtr-w-21",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chuông",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🔔"
+   }
+  },
+  {
+   "id": "chtr-w-22",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "trăn",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐍"
+   }
+  },
+  {
+   "id": "chtr-w-23",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "chăn",
+   "targetSound": "ch",
+   "confusableSound": "tr",
+   "mouthShape": "ch",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🛏️"
+   }
+  },
+  {
+   "id": "chtr-w-24",
+   "type": "word",
+   "pairId": "ch-tr",
+   "text": "tròn",
+   "targetSound": "tr",
+   "confusableSound": "ch",
+   "mouthShape": "tr",
+   "difficulty": 1,
+   "image": {
+    "emoji": "⭕"
+   }
+  },
+  {
+   "id": "chtr-p-01",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "cha",
+     "sound": "ch",
+     "image": {
+      "emoji": "👨"
+     },
+     "meaning": "người cha",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "tra",
+     "sound": "tr",
+     "image": {
+      "emoji": "🔍"
+     },
+     "meaning": "tra cứu",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-02",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "châu",
+     "sound": "ch",
+     "image": {
+      "emoji": "🌏"
+     },
+     "meaning": "châu lục",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "trâu",
+     "sound": "tr",
+     "image": {
+      "emoji": "🐃"
+     },
+     "meaning": "con trâu",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-03",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "che",
+     "sound": "ch",
+     "image": {
+      "emoji": "☂️"
+     },
+     "meaning": "che ô",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "tre",
+     "sound": "tr",
+     "image": {
+      "emoji": "🎋"
+     },
+     "meaning": "cây tre",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-04",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "chăn",
+     "sound": "ch",
+     "image": {
+      "emoji": "🛏️"
+     },
+     "meaning": "cái chăn",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "trăn",
+     "sound": "tr",
+     "image": {
+      "emoji": "🐍"
+     },
+     "meaning": "con trăn",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-05",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "chanh",
+     "sound": "ch",
+     "image": {
+      "emoji": "🍋"
+     },
+     "meaning": "quả chanh",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "tranh",
+     "sound": "tr",
+     "image": {
+      "emoji": "🖼️"
+     },
+     "meaning": "bức tranh",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-06",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "chống",
+     "sound": "ch",
+     "image": {
+      "emoji": "🦯"
+     },
+     "meaning": "gậy chống",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "trống",
+     "sound": "tr",
+     "image": {
+      "emoji": "🥁"
+     },
+     "meaning": "cái trống",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-07",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "chung",
+     "sound": "ch",
+     "image": {
+      "emoji": "🤝"
+     },
+     "meaning": "của chung",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "trung",
+     "sound": "tr",
+     "image": {
+      "emoji": "🎯"
+     },
+     "meaning": "chính giữa",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-08",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "chở",
+     "sound": "ch",
+     "image": {
+      "emoji": "🚚"
+     },
+     "meaning": "chở hàng",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "trở",
+     "sound": "tr",
+     "image": {
+      "emoji": "↩️"
+     },
+     "meaning": "trở về",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-09",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "chiều",
+     "sound": "ch",
+     "image": {
+      "emoji": "🌇"
+     },
+     "meaning": "buổi chiều",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "triều",
+     "sound": "tr",
+     "image": {
+      "emoji": "🌊"
+     },
+     "meaning": "thủy triều",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-p-10",
+   "type": "minimal_pair",
+   "pairId": "ch-tr",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "chuyện",
+     "sound": "ch",
+     "image": {
+      "emoji": "💬"
+     },
+     "meaning": "kể chuyện",
+     "mouthShape": "ch"
+    },
+    {
+     "text": "truyện",
+     "sound": "tr",
+     "image": {
+      "emoji": "📖"
+     },
+     "meaning": "quyển truyện",
+     "mouthShape": "tr"
+    }
+   ]
+  },
+  {
+   "id": "chtr-s-01",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Chú trâu chăm chỉ cày ruộng.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 2
+  },
+  {
+   "id": "chtr-s-02",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Trăng tròn chiếu sáng sân trường.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 2
+  },
+  {
+   "id": "chtr-s-03",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Chị cho em chùm chuối chín.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 2
+  },
+  {
+   "id": "chtr-s-04",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Trên cành tre, chim hót líu lo.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 2
+  },
+  {
+   "id": "chtr-s-05",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Cha chở con đến trường.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 3
+  },
+  {
+   "id": "chtr-s-06",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Trống trường vang lên rộn rã.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 3
+  },
+  {
+   "id": "chtr-s-07",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Chè chuối đựng trong chén trắng.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 3
+  },
+  {
+   "id": "chtr-s-08",
+   "type": "sentence",
+   "pairId": "ch-tr",
+   "text": "Trời trong xanh, chúng em chơi trốn tìm.",
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "difficulty": 3
+  },
+  {
+   "id": "chtr-v-01",
+   "type": "verse",
+   "pairId": "ch-tr",
+   "difficulty": 3,
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "subtype": "ve",
+   "title": "Vè trăng tre",
+   "lines": [
+    "Trên trời trăng trắng tròn trịa,",
+    "Chim chích chòe chuyền cành tre.",
+    "Chị Trang chăm chỉ chẻ tre,",
+    "Trâu chậm chạp chạy về chuồng."
+   ],
+   "text": "Trên trời trăng trắng tròn trịa, Chim chích chòe chuyền cành tre. Chị Trang chăm chỉ chẻ tre, Trâu chậm chạp chạy về chuồng."
+  },
+  {
+   "id": "chtr-v-02",
+   "type": "verse",
+   "pairId": "ch-tr",
+   "difficulty": 3,
+   "targetSounds": [
+    "ch",
+    "tr"
+   ],
+   "mouthShape": "ch",
+   "subtype": "cau_do",
+   "title": "Đố con: con gì?",
+   "lines": [
+    "Con gì chăm chỉ trên đồng,",
+    "Kéo cày cho chủ, chẳng trông công gì?"
+   ],
+   "answer": "Con trâu",
+   "answerEmoji": "🐃",
+   "text": "Con gì chăm chỉ trên đồng, Kéo cày cho chủ, chẳng trông công gì?"
+  },
+  {
+   "id": "sx-w-01",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sách",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "📚"
+   }
+  },
+  {
+   "id": "sx-w-02",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xe",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🚗"
+   }
+  },
+  {
+   "id": "sx-w-03",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sao",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "⭐"
+   }
+  },
+  {
+   "id": "sx-w-04",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xôi",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🍚"
+   }
+  },
+  {
+   "id": "sx-w-05",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sông",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🏞️"
+   }
+  },
+  {
+   "id": "sx-w-06",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xoài",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🥭"
+   }
+  },
+  {
+   "id": "sx-w-07",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sữa",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🥛"
+   }
+  },
+  {
+   "id": "sx-w-08",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xanh",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🟢"
+   }
+  },
+  {
+   "id": "sx-w-09",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sò",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐚"
+   }
+  },
+  {
+   "id": "sx-w-10",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xà phòng",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🧼"
+   }
+  },
+  {
+   "id": "sx-w-11",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sen",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🪷"
+   }
+  },
+  {
+   "id": "sx-w-12",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xương",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🦴"
+   }
+  },
+  {
+   "id": "sx-w-13",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sấm",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌩️"
+   }
+  },
+  {
+   "id": "sx-w-14",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xích đu",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🛝"
+   }
+  },
+  {
+   "id": "sx-w-15",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sóng",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌊"
+   }
+  },
+  {
+   "id": "sx-w-16",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xẻng",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 2,
+   "image": {
+    "emoji": "⛏️"
+   }
+  },
+  {
+   "id": "sx-w-17",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sương",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🌫️"
+   }
+  },
+  {
+   "id": "sx-w-18",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xinh",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🌸"
+   }
+  },
+  {
+   "id": "sx-w-19",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sẻ",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🐦"
+   }
+  },
+  {
+   "id": "sx-w-20",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xóm",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🏘️"
+   }
+  },
+  {
+   "id": "sx-w-21",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sân",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 1,
+   "image": {
+    "emoji": "🏡"
+   }
+  },
+  {
+   "id": "sx-w-22",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xem",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 1,
+   "image": {
+    "emoji": "👀"
+   }
+  },
+  {
+   "id": "sx-w-23",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "sư tử",
+   "targetSound": "s",
+   "confusableSound": "x",
+   "mouthShape": "s",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🦁"
+   }
+  },
+  {
+   "id": "sx-w-24",
+   "type": "word",
+   "pairId": "s-x",
+   "text": "xuân",
+   "targetSound": "x",
+   "confusableSound": "s",
+   "mouthShape": "x",
+   "difficulty": 2,
+   "image": {
+    "emoji": "🌱"
+   }
+  },
+  {
+   "id": "sx-p-01",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "sinh",
+     "sound": "s",
+     "image": {
+      "emoji": "🎂"
+     },
+     "meaning": "sinh nhật",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xinh",
+     "sound": "x",
+     "image": {
+      "emoji": "🌸"
+     },
+     "meaning": "xinh đẹp",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-02",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "sôi",
+     "sound": "s",
+     "image": {
+      "emoji": "♨️"
+     },
+     "meaning": "nước sôi",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xôi",
+     "sound": "x",
+     "image": {
+      "emoji": "🍚"
+     },
+     "meaning": "đĩa xôi",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-03",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "sách",
+     "sound": "s",
+     "image": {
+      "emoji": "📚"
+     },
+     "meaning": "quyển sách",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xách",
+     "sound": "x",
+     "image": {
+      "emoji": "👜"
+     },
+     "meaning": "xách túi",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-04",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "sâu",
+     "sound": "s",
+     "image": {
+      "emoji": "🐛"
+     },
+     "meaning": "con sâu",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xâu",
+     "sound": "x",
+     "image": {
+      "emoji": "🍢"
+     },
+     "meaning": "xâu chuỗi",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-05",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 1,
+   "options": [
+    {
+     "text": "sương",
+     "sound": "s",
+     "image": {
+      "emoji": "🌫️"
+     },
+     "meaning": "giọt sương",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xương",
+     "sound": "x",
+     "image": {
+      "emoji": "🦴"
+     },
+     "meaning": "khúc xương",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-06",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "sẻ",
+     "sound": "s",
+     "image": {
+      "emoji": "🐦"
+     },
+     "meaning": "chim sẻ",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xẻ",
+     "sound": "x",
+     "image": {
+      "emoji": "🪚"
+     },
+     "meaning": "xẻ gỗ",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-07",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "sa",
+     "sound": "s",
+     "image": {
+      "emoji": "🏜️"
+     },
+     "meaning": "sa mạc",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xa",
+     "sound": "x",
+     "image": {
+      "emoji": "🛣️"
+     },
+     "meaning": "đường xa",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-08",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "sung",
+     "sound": "s",
+     "image": {
+      "emoji": "🫐"
+     },
+     "meaning": "quả sung",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xung",
+     "sound": "x",
+     "image": {
+      "emoji": "⚡"
+     },
+     "meaning": "xung phong",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-09",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "sứ",
+     "sound": "s",
+     "image": {
+      "emoji": "🏺"
+     },
+     "meaning": "bình sứ",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xứ",
+     "sound": "x",
+     "image": {
+      "emoji": "🗺️"
+     },
+     "meaning": "xứ sở",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-p-10",
+   "type": "minimal_pair",
+   "pairId": "s-x",
+   "difficulty": 2,
+   "options": [
+    {
+     "text": "sao",
+     "sound": "s",
+     "image": {
+      "emoji": "⭐"
+     },
+     "meaning": "ngôi sao",
+     "mouthShape": "s"
+    },
+    {
+     "text": "xao",
+     "sound": "x",
+     "image": {
+      "emoji": "🍃"
+     },
+     "meaning": "xao xác",
+     "mouthShape": "x"
+    }
+   ]
+  },
+  {
+   "id": "sx-s-01",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Sáng sớm, sương phủ trắng sân.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 2
+  },
+  {
+   "id": "sx-s-02",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Xe xanh đỗ sát bên sông.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 2
+  },
+  {
+   "id": "sx-s-03",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Sáng nay, mẹ nấu xôi xéo.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 2
+  },
+  {
+   "id": "sx-s-04",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Chim sẻ sà xuống sân.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 2
+  },
+  {
+   "id": "sx-s-05",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Em xem sách bên cửa sổ.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 3
+  },
+  {
+   "id": "sx-s-06",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Sóng biển xô vào bờ cát.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 3
+  },
+  {
+   "id": "sx-s-07",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Sân trường sạch sẽ, xinh xắn.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 3
+  },
+  {
+   "id": "sx-s-08",
+   "type": "sentence",
+   "pairId": "s-x",
+   "text": "Sinh nhật Sơn, em tặng sách.",
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "difficulty": 3
+  },
+  {
+   "id": "sx-v-01",
+   "type": "verse",
+   "pairId": "s-x",
+   "difficulty": 3,
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "subtype": "ve",
+   "title": "Vè sáng sớm",
+   "lines": [
+    "Sáng sớm sương sa trắng xóa,",
+    "Xe xanh xếp sát bờ sông,",
+    "Sẻ non sà xuống sân xôn xao,",
+    "Xuân sang sen sắp nở hồng."
+   ],
+   "text": "Sáng sớm sương sa trắng xóa, Xe xanh xếp sát bờ sông, Sẻ non sà xuống sân xôn xao, Xuân sang sen sắp nở hồng."
+  },
+  {
+   "id": "sx-v-02",
+   "type": "verse",
+   "pairId": "s-x",
+   "difficulty": 3,
+   "targetSounds": [
+    "s",
+    "x"
+   ],
+   "mouthShape": "s",
+   "subtype": "cau_do",
+   "title": "Đố con: con gì?",
+   "lines": [
+    "Con gì nho nhỏ,",
+    "Sáng sớm sà xuống sân,",
+    "Xòe cánh nhảy xa xa,",
+    "Ríu rít suốt cả ngày?"
+   ],
+   "answer": "Con chim sẻ",
+   "answerEmoji": "🐦",
+   "text": "Con gì nho nhỏ, Sáng sớm sà xuống sân, Xòe cánh nhảy xa xa, Ríu rít suốt cả ngày?"
+  }
+ ],
+ "stories": [
+  {
+   "id": "story-ln",
+   "pairId": "l-n",
+   "title": "Nàng Lúa và chú Nai",
+   "cover": "🌾",
+   "pages": [
+    {
+     "text": "Làng em nằm dưới chân núi.",
+     "scene": "🏘️⛰️"
+    },
+    {
+     "text": "Nàng Lúa đội nón lá ra đồng.",
+     "scene": "👒🌾"
+    },
+    {
+     "text": "Nắng lên, lúa non xanh lá.",
+     "scene": "☀️🌱"
+    },
+    {
+     "text": "Chú nai nhỏ lon ton lại gần.",
+     "scene": "🦌🌼"
+    },
+    {
+     "text": "Nàng Lúa nói: Lại đây, nai ơi!",
+     "scene": "👧💬🦌"
+    }
+   ]
+  },
+  {
+   "id": "story-chtr",
+   "pairId": "ch-tr",
+   "title": "Chú Trâu chăm chỉ",
+   "cover": "🐃",
+   "pages": [
+    {
+     "text": "Trời trong, chim hót trên cành tre.",
+     "scene": "🌤️🐦🎋"
+    },
+    {
+     "text": "Chú trâu chậm chạp ra đồng.",
+     "scene": "🐃🌾"
+    },
+    {
+     "text": "Chị Trang cho trâu ăn cỏ.",
+     "scene": "👩🌿🐃"
+    },
+    {
+     "text": "Chiều về, trăng tròn chiếu sáng.",
+     "scene": "🌕✨"
+    },
+    {
+     "text": "Trâu và chị Trang cùng về nhà.",
+     "scene": "🐃👩🏡"
+    }
+   ]
+  },
+  {
+   "id": "story-sx",
+   "pairId": "s-x",
+   "title": "Chim Sẻ và Xe Xanh",
+   "cover": "🐦",
+   "pages": [
+    {
+     "text": "Sáng sớm, sương phủ trắng sân.",
+     "scene": "🌫️🏡"
+    },
+    {
+     "text": "Chim sẻ sà xuống bên xe xanh.",
+     "scene": "🐦🚙"
+    },
+    {
+     "text": "Sẻ xin bác xe một chuyến đi xa.",
+     "scene": "🐦💬🛣️"
+    },
+    {
+     "text": "Xe xanh chở sẻ qua sông.",
+     "scene": "🚙🏞️"
+    },
+    {
+     "text": "Sẻ say sưa xem sóng xô bờ.",
+     "scene": "🐦🌊"
+    }
+   ]
+  }
+ ]
+}
