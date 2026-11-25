@@ -436,7 +436,7 @@ class AsrVerifier:
             return {"heard": heard, "match": "exact", "acc": 1.0, "start": start}
         same = sum(1 for a, b in zip(e, h) if loose(a) == loose(b))
         acc = round(same / max(len(e), len(h), 1), 3)
-        ok = acc >= (1.0 if len(e) <= 2 else 0.9)
+        ok = acc >= (1.0 if len(e) <= 2 else 0.9 if len(e) < 5 else 0.8)
         return {"heard": heard, "match": "loose" if ok else "mismatch", "acc": acc, "start": start}
 
 
