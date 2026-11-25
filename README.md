@@ -17,8 +17,8 @@ Mã trang quản trị bản MVP: `giaovien` (đổi bằng biến môi trườn
 
 ## Cài như app trên điện thoại (GitHub Pages)
 
-1. Đẩy code lên nhánh `main` của repo GitHub. Workflow `.github/workflows/deploy.yml` tự build và đưa lên Pages
-   (lần đầu: **Settings → Pages → Source: GitHub Actions**).
+1. Đẩy code lên nhánh `main`. Workflow `.github/workflows/deploy.yml` tự kiểm tra (dữ liệu + test), build và đẩy bản build
+   lên nhánh `gh-pages` (nếu Pages chưa bật: **Settings → Pages → Deploy from a branch → gh-pages / root**).
 2. Mở `https://<tên-tài-khoản>.github.io/<tên-repo>/` bằng **Chrome trên Android** → menu ⋮ → **Thêm vào màn hình chính / Cài đặt ứng dụng**.
    Trên iPhone: mở bằng **Safari** → nút Chia sẻ → **Thêm vào MH chính**.
 3. App có icon riêng, mở toàn màn hình, dùng được khi mất mạng (trừ nhận dạng giọng nói của Chrome cần mạng).
